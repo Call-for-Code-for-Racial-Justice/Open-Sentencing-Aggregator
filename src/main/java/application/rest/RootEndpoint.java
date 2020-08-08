@@ -20,14 +20,4 @@ public class RootEndpoint {
     String exampleURL = (uriInfo.getAbsolutePath() + "/v1/example").replaceAll("(?<!http:)\\/\\/", "/");
     return Response.ok("{\"health\":\"" + healthURL + "\",\"example\":\"" + exampleURL + "\"}").build();
   }
-
-  @GET
-  @Produces({ MediaType.TEXT_HTML })
-  public InputStream getIndex() {
-    try {
-      return this.getClass().getResourceAsStream("/index.html");
-    } catch (Exception e) {
-      throw new RuntimeException("Exception returning index.html", e);
-    }
-  }
 }
