@@ -24,12 +24,12 @@ public class AttorneyApiServiceImpl extends AttorneyApiService {
     }
     @Override
     public Response deleteAttorney(Long attorneyId, SecurityContext securityContext) throws NotFoundException {
-        System.out.println("Deleting attorney: " + attorneyId)
+        System.out.println("Deleting attorney: " + attorneyId);
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response getAttorneyById(Long attorneyId, SecurityContext securityContext) throws NotFoundException {
-        System.out.println("Getting attorney: " + attorneyId)
+        System.out.println("Getting attorney: " + attorneyId);
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 }
