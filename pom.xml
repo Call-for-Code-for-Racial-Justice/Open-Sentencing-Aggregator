@@ -20,6 +20,17 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
+        <swagger-core-version>1.5.18</swagger-core-version>
+        <jetty-version>9.3.27.v20190418</jetty-version>
+        <jersey2-version>2.22.2</jersey2-version>
+        <jackson-version>2.10.1</jackson-version>
+        <junit-version>4.12</junit-version>
+        <logback-version>1.1.7</logback-version>
+        <servlet-api-version>2.5</servlet-api-version>
+        <okhttp-version>4.8.1</okhttp-version>
+        <gson-version>2.8.6</gson-version>
+        <jodatime-version>2.9.4.wso2v1</jodatime-version>
+
         <liberty.plugin.version>2.6.1</liberty.plugin.version>
         <app.name>javalibertyapp</app.name>
         <testServerHttpPort>9080</testServerHttpPort>
@@ -96,6 +107,92 @@
             <artifactId>cloudant-client</artifactId>
             <version>2.19.1</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jersey2-jaxrs</artifactId>
+            <scope>compile</scope>
+            <version>${swagger-core-version}</version>
+            </dependency>
+            <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-version}</version>
+            <scope>compile</scope>
+            </dependency>
+            <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback-version}</version>
+            <scope>compile</scope>
+            </dependency>
+            <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+            </dependency>
+            <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-joda</artifactId>
+                <version>${jackson-version}</version>
+            </dependency>
+            <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson-version}</version>
+            </dependency>
+            <!-- Base64 encoding that works in both JVM and Android -->
+            <dependency>
+            <groupId>com.brsanthu</groupId>
+            <artifactId>migbase64</artifactId>
+            <version>2.2</version>
+            </dependency>
+
+        
+            <!-- Bean Validation API support -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+            </dependency>
+
+            <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-core-version}</version>
+    </dependency>
+        <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>${okhttp-version}</version>
+        </dependency>
+        <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>logging-interceptor</artifactId>
+        <version>${okhttp-version}</version>
+        </dependency>
+        <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${gson-version}</version>
+        </dependency>
+
+        <dependency>
+        <groupId>org.wso2.orbit.joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>${jodatime-version}</version>
+        </dependency>
+	
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,6 +205,44 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>pom.xml</packagingExcludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/swagger.yaml</inputSpec>
+                            <language>jaxrs</language>
+                            <configOptions>
+                                <sourceFolder>target/generated-sources/swagger/src/gen/java/main</sourceFolder>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                <execution>
+                    <id>add-source</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                    <goal>add-source</goal>
+                    </goals>
+                    <configuration>
+                    <sources>
+                        <source>src/gen/java</source>
+                    </sources>
+                    </configuration>
+                </execution>
+                </executions>
             </plugin>
             <!-- Plugin to run unit tests -->
             <plugin>
