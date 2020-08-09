@@ -19,17 +19,17 @@ import javax.validation.constraints.*;
 public class AttorneyApiServiceImpl extends AttorneyApiService {
     @Override
     public Response addAttorney(Attorney body, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
+        System.out.println(body.toString());
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response deleteAttorney(Long attorneyId, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
+        System.out.println("Deleting attorney: " + attorneyId)
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response getAttorneyById(Long attorneyId, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
+        System.out.println("Getting attorney: " + attorneyId)
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 }
