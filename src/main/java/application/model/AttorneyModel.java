@@ -17,8 +17,8 @@ public class AttorneyModel {
     CloudantClient client = null;
     try {
       client = ClientBuilder
-          .url(new URL("https://72bb7f9c-7ef9-473d-9370-1e0e1cb6b0af-bluemix.cloudantnosqldb.appdomain.cloud"))
-          .iamApiKey("pRKSiKC7rdWejvsqpZ8Tiwo6H1ClhaLKAhYxuEq1kxc4").build();
+          .url(new URL(url))
+          .iamApiKey(apiKey).build();
     } catch (MalformedURLException e) {
       e.printStackTrace();
     }
@@ -27,9 +27,9 @@ public class AttorneyModel {
     db = client.database(database, false);
   }
 
-  public boolean save(Attorney attorney) {
+  public Response save(Attorney attorney) {
     Response resp = db.save(attorney);
-    return resp.getError() == null;
+    return resp;
   }
 
   public Attorney read(String id) {
