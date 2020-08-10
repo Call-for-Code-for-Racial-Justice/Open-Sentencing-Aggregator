@@ -9,16 +9,16 @@
 
     <!-- contains default pluginManagement configuration for liberty-maven-plugin -->
     <parent>
-        <groupId>net.wasdev.wlp.maven.parent</groupId>
+        <groupId>io.openliberty.tools</groupId>
         <artifactId>liberty-maven-app-parent</artifactId>
-        <version>2.1.2</version>
+        <version>3.2.2</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 
         <swagger-core-version>1.5.18</swagger-core-version>
         <jetty-version>9.3.27.v20190418</jetty-version>
@@ -31,7 +31,7 @@
         <gson-version>2.8.6</gson-version>
         <jodatime-version>2.9.4.wso2v1</jodatime-version>
 
-        <liberty.plugin.version>2.6.1</liberty.plugin.version>
+        <liberty.plugin.version>3.2.2</liberty.plugin.version>
         <app.name>javalibertyapp</app.name>
         <testServerHttpPort>9080</testServerHttpPort>
         <testServerHttpsPort>9443</testServerHttpsPort>
@@ -42,13 +42,6 @@
         <cf.target>https://api.ng.bluemix.net</cf.target>
         <cf.space>dev</cf.space>
         <cf.context.root>${cf.host}.${cf.context}</cf.context.root>
-
-        <!-- The Cloud Foundry or IBM Cloud organization, username and password can be
-            entered here. -->
-        <!-- <cf.org></cf.org> -->
-        <!-- <cf.username></cf.username> -->
-        <!-- <cf.password></cf.password> -->
-        <!-- This is the host for your app in IBM Cloud and what it will be called in the dashboard. -->
         <cf.host>${app.name}</cf.host>
     </properties>
 
@@ -83,12 +76,6 @@
             <version>1.2</version>
             <scope>provided</scope>
             <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -200,7 +187,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.3.1</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>pom.xml</packagingExcludes>
@@ -264,14 +251,14 @@
             </plugin>
             <!-- Enable liberty-maven plugin -->
             <plugin>
-                <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                <groupId>io.openliberty.tools</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>${liberty.plugin.version}</version>
                 <configuration>
                     <assemblyArtifact>
                         <groupId>com.ibm.websphere.appserver.runtime</groupId>
                         <artifactId>wlp-webProfile7</artifactId>
-                        <version>[18.0.0.1,)</version>
+                        <version>[20.0.0.7,)</version>
                         <type>zip</type>
                     </assemblyArtifact>
                     <configFile>${basedir}/src/main/liberty/config/server.xml</configFile>
