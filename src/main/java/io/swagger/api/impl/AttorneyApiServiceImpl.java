@@ -20,9 +20,9 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-08-09T16:09:16.040+02:00")
 public class AttorneyApiServiceImpl extends AttorneyApiService {
-    @ConfigProperty(name="aggregator_db_url")
+    @ConfigProperty(name="AGGREGATOR_DB_URL")
     public String databaseUrl;
-    @ConfigProperty(name="aggregator_db_iam_key")
+    @ConfigProperty(name="AGGREGATOR_DB_IAM_KEY")
     public String databaseIamKey;
 
     @Override

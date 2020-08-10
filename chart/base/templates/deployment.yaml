@@ -61,6 +61,21 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
+            - name: AGGREGATOR_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: aggregator-db
+                  key: url
+            - name: AGGREGATOR_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: aggregator-db
+                  key: url
+            - name: AGGREGATOR_DB_IAM_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aggregator-db
+                  key: iamkey
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
