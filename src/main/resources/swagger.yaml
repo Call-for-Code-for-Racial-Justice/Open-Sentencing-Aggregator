@@ -257,8 +257,8 @@ definitions:
         type: "string"
         enum:
           - "Self"
-          - "Court Appointed Attorney"
-          - "Private Attorney"
+          - "Court appointed attorney"
+          - "Private attorney"
       married:
         type: "boolean"
       annual_income_dollars:
