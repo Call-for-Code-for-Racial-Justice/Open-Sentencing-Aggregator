@@ -2,7 +2,7 @@
 # base as builder until this is ready. For reference:
 # https://github.com/ibmruntimes/ci.docker/tree/master/ibmjava/8/sdk/ubi-min
 
-FROM ibmjava:11-sdk AS builder
+FROM adoptopenjdk:14-jdk-hotspot AS builder
 LABEL maintainer="IBM Java Engineering at IBM Cloud"
 
 WORKDIR /app
@@ -13,7 +13,7 @@ RUN mvn -N io.takari:maven:wrapper -Dmaven=3.5.0
 RUN ./mvnw install
 
 # Multi-stage build. New build stage that uses the UBI as the base image.
-FROM ibmcom/websphere-liberty:20.0.0.8-full-java11-ibmjava-ubi
+FROM ibmcom/websphere-liberty:20.0.0.6-full-java11-openj9-ubi
 LABEL maintainer="IBM Java Engineering at IBM Cloud"
 ENV PATH /project/target/liberty/wlp/bin/:$PATH
 
