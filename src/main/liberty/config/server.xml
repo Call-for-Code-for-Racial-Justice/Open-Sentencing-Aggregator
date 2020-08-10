@@ -8,8 +8,6 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-
-
   <!-- Automatically expand WAR files and EAR files -->
   <applicationManager autoExpand="true"/>
 
@@ -17,4 +15,6 @@
 
   <webApplication name="javalibertyapp-1.0-SNAPSHOT" location="${app.location}" contextRoot="/"/>
 
+  <keyStore id="keystore" password="passw0rd" type="jks"
+    location="${server.config.dir}/resources/security/keystore.jks" />
 </server>
