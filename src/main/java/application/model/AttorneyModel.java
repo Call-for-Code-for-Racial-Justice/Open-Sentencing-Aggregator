@@ -34,7 +34,6 @@ public class AttorneyModel {
 
   public Attorney read(String id) {
     Attorney attorney = db.find(Attorney.class, id);
-
     return attorney;
   }
 }

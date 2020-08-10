@@ -15,6 +15,9 @@
 
   <webApplication name="javalibertyapp-1.0-SNAPSHOT" location="${app.location}" contextRoot="/"/>
 
-  <keyStore id="keystore" password="passw0rd" type="jks"
-    location="${server.config.dir}/resources/security/keystore.jks" />
+  <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+  <!--<ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" />
+  <keyStore id="defaultTrustStore" password="passw0rd" type="jks" location="${server.config.dir}/resources/security/keystore.jks" />-->
+
 </server>
