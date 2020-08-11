@@ -333,6 +333,10 @@ definitions:
         format: "int32"
       success:
         type: "boolean"
+      error:
+        type: "string"
+      warning:
+        type: "string"
       attorney:
         type: "array"
         items:

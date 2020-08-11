@@ -51,7 +51,13 @@ public class AttorneyApiServiceImpl extends AttorneyApiService {
     public Response getAllAttorneys(SecurityContext securityContext) throws NotFoundException {
         System.out.println("getAllAttorneys");
         QueryResult<Attorney> qr = am.getAll();
-        return Response.ok().entity(new AttorneyResponse()).build();
+        AttorneyResponse ar = new AttorneyResponse();
+        ar.setCode(200);
+        ar.setSuccess(true);
+        ar.setAttorney(qr.getDocs());
+        ar.setWarning(qr.getWarning());
+
+        return Response.ok().entity(ar).build();
         //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override

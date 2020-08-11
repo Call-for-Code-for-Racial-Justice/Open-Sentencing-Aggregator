@@ -47,7 +47,7 @@ public class AttorneyModel {
   }
 
   public QueryResult<Attorney> getAll() {
-    QueryResult<Attorney> qr = db.query(new QueryBuilder(gt("_id", 0)).fields("name").build(), Attorney.class);
+    QueryResult<Attorney> qr = db.query(new QueryBuilder(gt("_id", 0)).fields("id", "name").build(), Attorney.class);
     return qr;
   }
 }
