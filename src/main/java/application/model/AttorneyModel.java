@@ -2,10 +2,18 @@ package application.model;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 
-import com.cloudant.client.api.*;
+import com.cloudant.client.api.ClientBuilder;
+import com.cloudant.client.api.CloudantClient;
+import com.cloudant.client.api.Database;
 import com.cloudant.client.api.model.Response;
+import com.cloudant.client.api.query.QueryBuilder;
+import com.cloudant.client.api.query.QueryResult;
+
+import static com.cloudant.client.api.query.EmptyExpression.empty;
+import static com.cloudant.client.api.query.Expression.eq;
+import static com.cloudant.client.api.query.Expression.gt;
+import static com.cloudant.client.api.query.Operation.and;
 
 import io.swagger.model.Attorney;
 
@@ -14,6 +22,7 @@ public class AttorneyModel {
   private Database db = null;
 
   public AttorneyModel(String url, String apiKey, String database) {
+    System.out.println(url);
     CloudantClient client = null;
     try {
       client = ClientBuilder
@@ -35,6 +44,11 @@ public class AttorneyModel {
   public Attorney read(String id) {
     Attorney attorney = db.find(Attorney.class, id);
     return attorney;
+  }
+
+  public QueryResult<Attorney> getAll() {
+    QueryResult<Attorney> qr = db.query(new QueryBuilder(gt("_id", 0)).fields("name").build(), Attorney.class);
+    return qr;
   }
 }
 

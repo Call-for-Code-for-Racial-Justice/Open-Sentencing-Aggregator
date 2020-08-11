@@ -312,6 +312,11 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                 <directory>target/generated-sources/swagger/target</directory>
+            </resource>
+        </resources>
     </build>
 
     <profiles>
