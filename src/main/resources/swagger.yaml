@@ -11,7 +11,7 @@ tags:
 - name: "case"
   description: "Case"
 - name: "charge"
-  description: "Chase"
+  description: "Charge"
 schemes:
 - "https"
 - "http"
@@ -102,14 +102,56 @@ definitions:
         type: "string"
       trial_type:
         type: "string"
+        enum:
+          - "Guilty plea"
+          - "Trial by judge"
+          - "Trial by jury"
       charge_code:
         type: "string"
+        enum:
+          - "Administration of Justice"
+          - "Antitrust"
+          - "Arson"
+          - "Bribery/Corruption"
+          - "Burglary/Trespass"
+          - "Child Pornography"
+          - "Commercialized Vice"
+          - "Drug Possession"
+          - "Drug Trafficking"
+          - "Environmental"
+          - "Extortion/Racketeering"
+          - "Firearms"
+          - "Food and Drug"
+          - "Forgery/Counter/Copyright"
+          - "Fraud/Theft/Embezzlement"
+          - "Immigration"
+          - "Invidual Rights"
+          - "Kidnapping"
+          - "Manslaughter"
+          - "Money Laundering"
+          - "Murder"
+          - "National Defense"
+          - "Obscenity/Other Sex Offenses"
+          - "Prison Offenses"
+          - "Robbery"
+          - "Sexual Abuse"
+          - "Stalking/Harassing"
+          - "Tax"
+          - "Other"
       attempted:
         type: "string"
       primary:
         type: "boolean"
       sentence_type:
         type: "string"
+        enum:
+          - "Prison Only"
+          - "Prison and Alternatives"
+          - "Probation Only"
+          - "Probation and Alternatives"
+          - "Fine Ordered/No Restitution"
+          - "Restitution Ordered/No Fine"
+          - "Both Fine & Restitution Ordered"
       minimum_incarceration_months:
         type: "integer"
         format: "int64"
@@ -148,6 +190,25 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Charge"
+      circuit:
+        type: "string"
+        enum:
+          - "DC Circuit"
+          - "1st Circuit"
+          - "2nd Circuit"
+          - "3rd Circuit"
+          - "4th Circuit"
+          - "5th Circuit"
+          - "6th Circuit"
+          - "7th Circuit"
+          - "8th Circuit"
+          - "9th Circuit"
+          - "10th Circuit"
+          - "11th Circuit"
+      state:
+        type: "string"
+      district:
+        type: "string"
   Client:
     type: "object"
     required:
@@ -164,7 +225,16 @@ definitions:
         type: "string"
       race:
         type: "string"
+        enum:
+          - White
+          - Black
+          - Hispanic
+          - Other
       gender:
+        enum:
+          - Female
+          - Male
+          - Other
         type: "string"
       date_of_birth:
         type: "string"
@@ -174,8 +244,21 @@ definitions:
       prior_misdemeanor_convictions:
         type: "integer"
         format: "int64"
+      criminal_history_category:
+        type: "string"
+        enum:
+          - "Category I"
+          - "Category II"
+          - "Category III"
+          - "Category IV"
+          - "Category V"
+          - "Category VI"
       type_of_legal_representation:
         type: "string"
+        enum:
+          - "Self"
+          - "Court appointed attorney"
+          - "Private attorney"
       married:
         type: "boolean"
       annual_income_dollars:
@@ -183,8 +266,17 @@ definitions:
         format: "int64"
       education_level_completed:
         type: "string"
+        enum:
+          - "Less than high school graduate"
+          - "High school graduate or equivalent"
+          - "Some college"
+          - "College graduate or more"
+          - "Unknown"
       immigration_status:
         type: "string"
+        enum:
+          - "US Citizen"
+          - "Non-US Citizen"
       number_of_children_under_18_at_home:
         type: "string"
       health_factors:
