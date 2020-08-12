@@ -47,7 +47,7 @@ public class ClientModel {
   }
 
   public QueryResult<Client> getAllClientsOfAttorney(String attorneyId) {
-    QueryResult<Client> qr = db.query(new QueryBuilder(eq("attorney_id", attorneyId)).build(), Client.class);
+    QueryResult<Client> qr = db.query(new QueryBuilder(eq("attorneyId", attorneyId)).build(), Client.class);
     return qr;
   }
 }

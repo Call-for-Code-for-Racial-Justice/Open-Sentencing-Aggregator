@@ -19,6 +19,10 @@ import application.model.ClientModel;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
+
+import com.cloudant.client.api.query.QueryResult;
+
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-08-12T16:49:15.342+02:00")
 public class ClientApiServiceImpl extends ClientApiService {
     private ClientModel am = null;
@@ -41,22 +45,24 @@ public class ClientApiServiceImpl extends ClientApiService {
     }
     @Override
     public Response getClientById(String clientId, SecurityContext securityContext) throws NotFoundException {
-        System.out.println("getAllAttorneys");
-        QueryResult<Client> qr = am.getAll();
-        ClientResponse cr = new ClientResponse();
-        cr.setCode(200);
-        cr.setSuccess(true);
-        cr.setAttorney(qr.getDocs());
-        cr.setWarning(qr.getWarning());
+        System.out.println("getClientById");
 
-        return Response.ok().entity(cr).build();
+        Client client = am.read(clientId);
+        System.out.println("Client: " + client.toString());
+        return Response.ok().entity(client).build();
     }
     @Override
     public Response getClients(ClientFilter body, SecurityContext securityContext) throws NotFoundException {
         System.out.println("getClientsFiltered");
         System.out.println("Attorney Id: " + body.getAttorneyId());
-        Client client = am.read(body.getAttorneyId());
-        System.out.println("Client: " + client.toString());
-        return Response.ok().entity(client).build();
+        QueryResult<Client> qr = am.getAllClientsOfAttorney(body.getAttorneyId());
+
+        ClientResponse cr = new ClientResponse();
+        cr.setCode(200);
+        cr.setSuccess(true);
+        cr.setClients(qr.getDocs());
+        cr.setWarning(qr.getWarning());
+
+        return Response.ok().entity(cr).build();
     }
 }

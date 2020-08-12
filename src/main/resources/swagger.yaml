@@ -155,9 +155,9 @@ definitions:
     - "alternative_sentence"
     - "suspended_sentence"
     properties:
-      _id:
+      id:
         type: "string"
-      _rev:
+      rev:
         type: "string"
       trial_type:
         type: "string"
@@ -237,9 +237,9 @@ definitions:
     - "reasoning_for_charges"
     - "possible_charges"
     properties:
-      _id:
+      id:
         type: "string"
-      _rev:
+      rev:
         type: "string"
       client_id:
         type: "string"
@@ -277,9 +277,9 @@ definitions:
     - "last_name"
     - "attorney_id"
     properties:
-      _id:
+      id:
         type: "string"
-      _rev:
+      rev:
         type: "string"
       attorney_id:
         type: "string"
@@ -350,13 +350,13 @@ definitions:
     required:
     - "name"
     properties:
-      _id:
+      id:
         type: "string"
-      _rev:
+      rev:
         type: "string"
       name:
         type: "string"
-      clients:
+      cases:
         type: "array"
         items:
           $ref: "#/definitions/Case"
@@ -402,7 +402,7 @@ definitions:
         type: "string"
       warning:
         type: "string"
-      attorney:
+      clients:
         type: "array"
         items:
           $ref: "#/definitions/Client"
