@@ -15,13 +15,13 @@ import static com.cloudant.client.api.query.Expression.eq;
 import static com.cloudant.client.api.query.Expression.gt;
 import static com.cloudant.client.api.query.Operation.and;
 
-import io.swagger.model.Attorney;
+import io.swagger.model.Client;
 
-public class AttorneyModel {
+public class ClientModel {
   private CloudantClient client = null;
   private Database db = null;
 
-  public AttorneyModel(String url, String apiKey, String database) {
+  public ClientModel(String url, String apiKey, String database) {
     System.out.println(url);
     CloudantClient client = null;
     try {
@@ -36,18 +36,18 @@ public class AttorneyModel {
     db = client.database(database, false);
   }
 
-  public Response save(Attorney attorney) {
-    Response resp = db.save(attorney);
+  public Response save(Client client) {
+    Response resp = db.save(client);
     return resp;
   }
 
-  public Attorney read(String id) {
-    Attorney attorney = db.find(Attorney.class, id);
-    return attorney;
+  public Client read(String id) {
+    Client client = db.find(Client.class, id);
+    return client;
   }
 
-  public QueryResult<Attorney> getAll() {
-    QueryResult<Attorney> qr = db.query(new QueryBuilder(gt("_id", 0)).fields("name", "_id", "_rev").build(), Attorney.class);
+  public QueryResult<Client> getAllClientsOfAttorney(String attorneyId) {
+    QueryResult<Client> qr = db.query(new QueryBuilder(eq("attorney_id", attorneyId)).build(), Client.class);
     return qr;
   }
 }

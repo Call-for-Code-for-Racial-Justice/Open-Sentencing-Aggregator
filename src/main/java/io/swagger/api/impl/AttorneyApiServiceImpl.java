@@ -28,7 +28,7 @@ public class AttorneyApiServiceImpl extends AttorneyApiService {
     public AttorneyApiServiceImpl() {
         String databaseUrl = System.getenv("AGGREGATOR_DB_URL");
         String databaseIamKey = System.getenv("AGGREGATOR_DB_IAM_KEY");
-        am = new AttorneyModel(databaseUrl, databaseIamKey, "outcarcerate");
+        am = new AttorneyModel(databaseUrl, databaseIamKey, "outcarcerate-attorney");
     }
 
     @Override
@@ -40,12 +40,6 @@ public class AttorneyApiServiceImpl extends AttorneyApiService {
         } else {
             return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.ERROR, resp.getError())).build();
         }
-    }
-    @Override
-    public Response deleteAttorney(String attorneyId, SecurityContext securityContext) throws NotFoundException {
-        System.out.println("deleteAttorney");
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response getAllAttorneys(SecurityContext securityContext) throws NotFoundException {

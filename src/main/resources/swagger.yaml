@@ -73,25 +73,71 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Attorney not found"
-    delete:
+  /client:
+    post:
       tags:
-      - "attorney"
-      summary: "Deletes an attorney"
+      - "client"
+      summary: "Add a new client"
       description: ""
-      operationId: "deleteAttorney"
+      operationId: "addClient"
+      consumes:
+      - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "attorneyId"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Client"
+      responses:
+        "405":
+          description: "Invalid input"
+    get:
+      tags:
+      - "client"
+      summary: "Get a list of clients for an attorney"
+      description: "Returns all clients of an attorney"
+      operationId: "getClients"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ClientFilter"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClientResponse"
+  /client/{clientId}:
+    get:
+      tags:
+      - "client"
+      summary: "Find client by ID"
+      description: "Returns a single client"
+      operationId: "getClientById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "clientId"
         in: "path"
-        description: "Attorney id to delete"
+        description: "ID of client to return"
         required: true
         type: "string"
       responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ClientResponse"
         "400":
           description: "Invalid ID supplied"
         "404":
-          description: "Attorney not found"
+          description: "Client not found"
 definitions:
   Charge:
     type: "object"
@@ -195,6 +241,8 @@ definitions:
         type: "string"
       _rev:
         type: "string"
+      client_id:
+        type: "string"
       crime_description:
         type: "string"
       reasoning_for_charges:
@@ -227,10 +275,13 @@ definitions:
     required:
     - "first_name"
     - "last_name"
+    - "attorney_id"
     properties:
       _id:
         type: "string"
       _rev:
+        type: "string"
+      attorney_id:
         type: "string"
       first_name:
         type: "string"
@@ -294,10 +345,6 @@ definitions:
         type: "string"
       health_factors:
         type: "string"
-      cases:
-        type: "array"
-        items:
-          $ref: "#/definitions/Case"
   Attorney:
     type: "object"
     required:
@@ -312,7 +359,7 @@ definitions:
       clients:
         type: "array"
         items:
-          $ref: "#/definitions/Client"
+          $ref: "#/definitions/Case"
   ApiResponse:
     type: "object"
     properties:
@@ -341,3 +388,28 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Attorney"
+  ClientResponse:
+    type: "object"
+    required:
+    - "success"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      success:
+        type: "boolean"
+      error:
+        type: "string"
+      warning:
+        type: "string"
+      attorney:
+        type: "array"
+        items:
+          $ref: "#/definitions/Client"
+  ClientFilter:
+    type: "object"
+    required:
+    - "attorneyId"
+    properties:
+      attorney_id:
+        type: "string"
