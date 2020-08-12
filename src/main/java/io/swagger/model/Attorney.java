@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.ModelCase;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -28,11 +27,11 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-08-12T21:38:30.799+02:00")
 public class Attorney   {
-  @JsonProperty("id")
-  private String id = null;
+  @JsonProperty("_id")
+  private String _id = null;
 
-  @JsonProperty("rev")
-  private String rev = null;
+  @JsonProperty("_rev")
+  private String _rev = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -41,7 +40,7 @@ public class Attorney   {
   private List<ModelCase> cases = null;
 
   public Attorney id(String id) {
-    this.id = id;
+    this._id = id;
     return this;
   }
 
@@ -49,18 +48,18 @@ public class Attorney   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty("_id")
   @ApiModelProperty(value = "")
   public String getId() {
-    return id;
+    return _id;
   }
 
   public void setId(String id) {
-    this.id = id;
+    this._id = id;
   }
 
   public Attorney rev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
     return this;
   }
 
@@ -68,14 +67,14 @@ public class Attorney   {
    * Get rev
    * @return rev
    **/
-  @JsonProperty("rev")
+  @JsonProperty("_rev")
   @ApiModelProperty(value = "")
   public String getRev() {
-    return rev;
+    return _rev;
   }
 
   public void setRev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
   }
 
   public Attorney name(String name) {
@@ -135,15 +134,15 @@ public class Attorney   {
       return false;
     }
     Attorney attorney = (Attorney) o;
-    return Objects.equals(this.id, attorney.id) &&
-        Objects.equals(this.rev, attorney.rev) &&
+    return Objects.equals(this._id, attorney._id) &&
+        Objects.equals(this._rev, attorney._rev) &&
         Objects.equals(this.name, attorney.name) &&
         Objects.equals(this.cases, attorney.cases);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, rev, name, cases);
+    return Objects.hash(_id, _rev, name, cases);
   }
 
 
@@ -152,8 +151,8 @@ public class Attorney   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Attorney {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    rev: ").append(toIndentedString(rev)).append("\n");
+    sb.append("    _id: ").append(toIndentedString(_id)).append("\n");
+    sb.append("    _rev: ").append(toIndentedString(_rev)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    cases: ").append(toIndentedString(cases)).append("\n");
     sb.append("}");

@@ -26,11 +26,11 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-08-12T21:38:30.799+02:00")
 public class Client   {
-  @JsonProperty("id")
-  private String id = null;
+  @JsonProperty("_id")
+  private String _id = null;
 
-  @JsonProperty("rev")
-  private String rev = null;
+  @JsonProperty("_rev")
+  private String _rev = null;
 
   @JsonProperty("attorney_id")
   private String attorneyId = null;
@@ -289,7 +289,7 @@ public class Client   {
   private String healthFactors = null;
 
   public Client id(String id) {
-    this.id = id;
+    this._id = id;
     return this;
   }
 
@@ -297,18 +297,18 @@ public class Client   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty("_id")
   @ApiModelProperty(value = "")
   public String getId() {
-    return id;
+    return _id;
   }
 
   public void setId(String id) {
-    this.id = id;
+    this._id = id;
   }
 
   public Client rev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
     return this;
   }
 
@@ -316,14 +316,14 @@ public class Client   {
    * Get rev
    * @return rev
    **/
-  @JsonProperty("rev")
+  @JsonProperty("_rev")
   @ApiModelProperty(value = "")
   public String getRev() {
-    return rev;
+    return _rev;
   }
 
   public void setRev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
   }
 
   public Client attorneyId(String attorneyId) {
@@ -643,8 +643,8 @@ public class Client   {
       return false;
     }
     Client client = (Client) o;
-    return Objects.equals(this.id, client.id) &&
-        Objects.equals(this.rev, client.rev) &&
+    return Objects.equals(this._id, client._id) &&
+        Objects.equals(this._rev, client._rev) &&
         Objects.equals(this.attorneyId, client.attorneyId) &&
         Objects.equals(this.firstName, client.firstName) &&
         Objects.equals(this.lastName, client.lastName) &&
@@ -665,7 +665,7 @@ public class Client   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, rev, attorneyId, firstName, lastName, race, gender, dateOfBirth, priorFelonyConvictions, priorMisdemeanorConvictions, criminalHistoryCategory, typeOfLegalRepresentation, married, annualIncomeDollars, educationLevelCompleted, immigrationStatus, numberOfChildrenUnder18AtHome, healthFactors);
+    return Objects.hash(_id, _rev, attorneyId, firstName, lastName, race, gender, dateOfBirth, priorFelonyConvictions, priorMisdemeanorConvictions, criminalHistoryCategory, typeOfLegalRepresentation, married, annualIncomeDollars, educationLevelCompleted, immigrationStatus, numberOfChildrenUnder18AtHome, healthFactors);
   }
 
 
@@ -674,8 +674,8 @@ public class Client   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Client {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    rev: ").append(toIndentedString(rev)).append("\n");
+    sb.append("    _id: ").append(toIndentedString(_id)).append("\n");
+    sb.append("    _rev: ").append(toIndentedString(_rev)).append("\n");
     sb.append("    attorneyId: ").append(toIndentedString(attorneyId)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");

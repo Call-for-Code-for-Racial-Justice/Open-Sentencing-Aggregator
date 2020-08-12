@@ -26,11 +26,11 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-08-12T21:38:30.799+02:00")
 public class Charge   {
-  @JsonProperty("id")
-  private String id = null;
+  @JsonProperty("_id")
+  private String _id = null;
 
-  @JsonProperty("rev")
-  private String rev = null;
+  @JsonProperty("_rev")
+  private String _rev = null;
 
   /**
    * Gets or Sets trialType
@@ -228,7 +228,7 @@ public class Charge   {
   private Boolean suspendedSentence = null;
 
   public Charge id(String id) {
-    this.id = id;
+    this._id = id;
     return this;
   }
 
@@ -236,18 +236,18 @@ public class Charge   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty("_id")
   @ApiModelProperty(value = "")
   public String getId() {
-    return id;
+    return _id;
   }
 
   public void setId(String id) {
-    this.id = id;
+    this._id = id;
   }
 
   public Charge rev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
     return this;
   }
 
@@ -255,14 +255,14 @@ public class Charge   {
    * Get rev
    * @return rev
    **/
-  @JsonProperty("rev")
+  @JsonProperty("_rev")
   @ApiModelProperty(value = "")
   public String getRev() {
-    return rev;
+    return _rev;
   }
 
   public void setRev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
   }
 
   public Charge trialType(TrialTypeEnum trialType) {
@@ -515,8 +515,8 @@ public class Charge   {
       return false;
     }
     Charge charge = (Charge) o;
-    return Objects.equals(this.id, charge.id) &&
-        Objects.equals(this.rev, charge.rev) &&
+    return Objects.equals(this._id, charge._id) &&
+        Objects.equals(this._rev, charge._rev) &&
         Objects.equals(this.trialType, charge.trialType) &&
         Objects.equals(this.chargeCode, charge.chargeCode) &&
         Objects.equals(this.attempted, charge.attempted) &&
@@ -533,7 +533,7 @@ public class Charge   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, rev, trialType, chargeCode, attempted, primary, sentenceType, minimumIncarcerationMonths, maximumIncarcerationMonths, probationTermMonths, fineDollars, communityServiceHours, alternativeSentence, suspendedSentence);
+    return Objects.hash(_id, _rev, trialType, chargeCode, attempted, primary, sentenceType, minimumIncarcerationMonths, maximumIncarcerationMonths, probationTermMonths, fineDollars, communityServiceHours, alternativeSentence, suspendedSentence);
   }
 
 
@@ -542,8 +542,8 @@ public class Charge   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Charge {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    rev: ").append(toIndentedString(rev)).append("\n");
+    sb.append("    _id: ").append(toIndentedString(_id)).append("\n");
+    sb.append("    _rev: ").append(toIndentedString(_rev)).append("\n");
     sb.append("    trialType: ").append(toIndentedString(trialType)).append("\n");
     sb.append("    chargeCode: ").append(toIndentedString(chargeCode)).append("\n");
     sb.append("    attempted: ").append(toIndentedString(attempted)).append("\n");

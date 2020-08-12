@@ -29,11 +29,11 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-08-12T21:38:30.799+02:00")
 public class ModelCase   {
-  @JsonProperty("id")
-  private String id = null;
+  @JsonProperty("_id")
+  private String _id = null;
 
-  @JsonProperty("rev")
-  private String rev = null;
+  @JsonProperty("_rev")
+  private String _rev = null;
 
   @JsonProperty("client_id")
   private String clientId = null;
@@ -108,7 +108,7 @@ public class ModelCase   {
   private String district = null;
 
   public ModelCase id(String id) {
-    this.id = id;
+    this._id = id;
     return this;
   }
 
@@ -116,18 +116,18 @@ public class ModelCase   {
    * Get id
    * @return id
    **/
-  @JsonProperty("id")
+  @JsonProperty("_id")
   @ApiModelProperty(value = "")
   public String getId() {
-    return id;
+    return _id;
   }
 
   public void setId(String id) {
-    this.id = id;
+    this._id = id;
   }
 
   public ModelCase rev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
     return this;
   }
 
@@ -135,14 +135,14 @@ public class ModelCase   {
    * Get rev
    * @return rev
    **/
-  @JsonProperty("rev")
+  @JsonProperty("_rev")
   @ApiModelProperty(value = "")
   public String getRev() {
-    return rev;
+    return _rev;
   }
 
   public void setRev(String rev) {
-    this.rev = rev;
+    this._rev = rev;
   }
 
   public ModelCase clientId(String clientId) {
@@ -296,8 +296,8 @@ public class ModelCase   {
       return false;
     }
     ModelCase _case = (ModelCase) o;
-    return Objects.equals(this.id, _case.id) &&
-        Objects.equals(this.rev, _case.rev) &&
+    return Objects.equals(this._id, _case._id) &&
+        Objects.equals(this._rev, _case._rev) &&
         Objects.equals(this.clientId, _case.clientId) &&
         Objects.equals(this.crimeDescription, _case.crimeDescription) &&
         Objects.equals(this.reasoningForCharges, _case.reasoningForCharges) &&
@@ -309,7 +309,7 @@ public class ModelCase   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, rev, clientId, crimeDescription, reasoningForCharges, possibleCharges, circuit, state, district);
+    return Objects.hash(_id, _rev, clientId, crimeDescription, reasoningForCharges, possibleCharges, circuit, state, district);
   }
 
 
@@ -318,8 +318,8 @@ public class ModelCase   {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelCase {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    rev: ").append(toIndentedString(rev)).append("\n");
+    sb.append("    _id: ").append(toIndentedString(_id)).append("\n");
+    sb.append("    _rev: ").append(toIndentedString(_rev)).append("\n");
     sb.append("    clientId: ").append(toIndentedString(clientId)).append("\n");
     sb.append("    crimeDescription: ").append(toIndentedString(crimeDescription)).append("\n");
     sb.append("    reasoningForCharges: ").append(toIndentedString(reasoningForCharges)).append("\n");
