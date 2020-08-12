@@ -109,9 +109,9 @@ definitions:
     - "alternative_sentence"
     - "suspended_sentence"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       trial_type:
         type: "string"
@@ -191,9 +191,9 @@ definitions:
     - "reasoning_for_charges"
     - "possible_charges"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       crime_description:
         type: "string"
@@ -228,9 +228,9 @@ definitions:
     - "first_name"
     - "last_name"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       first_name:
         type: "string"
@@ -303,9 +303,9 @@ definitions:
     required:
     - "name"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       name:
         type: "string"
