@@ -1,7 +1,11 @@
 swagger: "2.0"
 info:
-  version: "1.0.0"
+  version: "1.0.1"
+  # Integrated with OpenSentencingModel data objects
   title: "Outcarcerate"
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
 basePath: "/v1"
 tags:
 - name: "attorney"
@@ -12,6 +16,9 @@ tags:
   description: "Case"
 - name: "charge"
   description: "Charge"
+# Added this new model object as a part of v1.0.1  
+- name: "sentence"
+  description: "Sentence"
 schemes:
 - "https"
 - "http"
@@ -154,6 +161,7 @@ definitions:
     - "community_service_hours"
     - "alternative_sentence"
     - "suspended_sentence"
+    - "disposition_charged_class"
     properties:
       id:
         type: "string"
@@ -165,38 +173,121 @@ definitions:
           - "Guilty plea"
           - "Trial by judge"
           - "Trial by jury"
+      disposition_charged_class:
+        type: "string"
       charge_code:
         type: "string"
         enum:
-          - "Administration of Justice"
-          - "Antitrust"
-          - "Arson"
-          - "Bribery/Corruption"
-          - "Burglary/Trespass"
-          - "Child Pornography"
-          - "Commercialized Vice"
-          - "Drug Possession"
-          - "Drug Trafficking"
-          - "Environmental"
-          - "Extortion/Racketeering"
-          - "Firearms"
-          - "Food and Drug"
-          - "Forgery/Counter/Copyright"
-          - "Fraud/Theft/Embezzlement"
-          - "Immigration"
-          - "Invidual Rights"
-          - "Kidnapping"
-          - "Manslaughter"
-          - "Money Laundering"
-          - "Murder"
-          - "National Defense"
-          - "Obscenity/Other Sex Offenses"
-          - "Prison Offenses"
-          - "Robbery"
-          - "Sexual Abuse"
-          - "Stalking/Harassing"
-          - "Tax"
-          - "Other"
+          -	"Administration of Justice"
+          -	"Aggravated Assault Police Officer"
+          -	"Aggravated Battery Police Officer"
+          -	"Aggravated Battery With A Firearm"
+          -	"Aggravated Battery"
+          -	"Aggravated Discharge Firearm"
+          -	"Aggravated DUI"
+          -	"Aggravated Fleeing and Eluding"
+          -	"Aggravated Identity Theft"
+          -	"Aggravated Robbery"
+          -	"Antitrust"
+          -	"Armed Robbery"
+          -	"Armed Violence"
+          -	"Arson and Attempt Arson"
+          -	"Arson"
+          -	"Attempt Armed Robbery"
+          -	"Attempt Arson"
+          - "Attempt First Degree Murder"
+          -	"Attempt Homicide"
+          -	"Attempt Sex Crimes"
+          -	"Attempt Vehicular Hijacking"
+          -	"Battery"
+          -	"Bomb Threat"
+          -	"Bribery"
+          -	"Bribery/Corruption"
+          -	"Burglary"
+          -	"Burglary/Trespass"
+          -	"Child Abduction"
+          -	"Child Pornography"
+          -	"Commercialized Vice"
+          -	"Communicating With Witness"
+          -	"Credit Card Cases"
+          -	"Criminal Damage to Property"
+          -	"Criminal Trespass To Residence"
+          -	"Deceptive Practice"
+          -	"Disarming Police Officer"
+          -	"Dog Fighting"
+          -	"Domestic Battery"
+          -	"Driving With Suspended Or Revoked License"
+          -	"Drug Possession"
+          -	"Drug Trafficking"
+          -	"DUI"
+          -	"Environmental"
+          -	"Escape - Failure to Return"
+          -	"Extortion/Racketeering"
+          - "FALSIFICATION OF ACCOUNTS"
+          -	"Failure to Register as a Sex Offender"
+          -	"Firearms"
+          -	"Food and Drug"
+          -	"Forgery"
+          -	"Forgery/Counter/Copyright"
+          -	"Fraud"
+          -	"Fraud/Theft/Embezzlement"
+          -	"Fraudulent ID"
+          -	"Gambling"
+          -	"Gun - Non UUW"
+          -	"Gun Running"
+          -	"Hate Crimes"
+          -	"Home Invasion"
+          -	"Homicide"
+          -	"Human Trafficking"
+          -	"Identity Theft"
+          -	"Immigration"
+          -	"Impersonating Police Officer"
+          -	"Intimidation"
+          -	"Invidual Rights"
+          -	"Kidnapping"
+          -	"Major Accidents"
+          -	"Manslaughter"
+          -	"Money Laundering"
+          -	"Murder"
+          -	"Narcotics"
+          -	"National Defense"
+          -	"Obscenity/Other Sex Offenses"
+          -	"Obstructing Justice"
+          -	"Official Misconduct"
+          -	"Other Offense"
+          -	"Other"
+          -	"Pandering"
+          -	"Perjury"
+          -	"Possession Of Burglary Tools"
+          -	"Possession of Contraband in Penal Institution"
+          -	"Possession of Explosives"
+          -	"Possession of Stolen Motor Vehicle"
+          -	"Prison Offenses"
+          -	"PROMIS Conversion"
+          -	"Prostitution"
+          -	"Reckless Discharge of Firearm"
+          -	"Reckless Homicide"
+          -	"Residential Burglary"
+          -	"Retail Theft"
+          - "REVOKED/SUSPENDED 2ND+ DUI"
+          -	"Robbery"
+          -	"Sex Crimes"
+          - "SEX WITH ANIMAL/<18 PRESENT"
+          -	"Sexual Abuse"
+          -	"Stalking"
+          -	"Stalking/Harassing"
+          -	"Tampering"
+          -	"Tax"
+          -	"Theft by Deception"
+          -	"Theft"
+          -	"Unlawful Restraint"
+          -	"UUW - Unlawful Use of Weapon"
+          -	"Vehicular Hijacking"
+          -	"Vehicular Invasion"
+          -	"Violate Bail Bond"
+          - "VIO BAIL BOND/CLASS X CONVIC"
+          -	"Violation of Sex Offender Registration"
+          -	"Violation Order Of Protection"
       attempted:
         type: "string"
       primary:
@@ -211,6 +302,20 @@ definitions:
           - "Fine Ordered/No Restitution"
           - "Restitution Ordered/No Fine"
           - "Both Fine & Restitution Ordered"
+          - "Prison"
+          - "Supervision" 
+          - "Conditional Discharge" 
+          - "Probation"
+          - "Jail" 
+          - "Conversion" 
+          - "Cook County Boot Camp"
+          - "Probation Terminated Satisfactorily"
+          - "Inpatient Mental Health Services"
+          - "Probation Terminated Unsatisfactorily" 
+          - "Conditional Release"
+          - "Probation Terminated Instanter" 
+          - "Death"
+          - "2nd Chance Probation"
       minimum_incarceration_months:
         type: "integer"
         format: "int64"
@@ -230,12 +335,57 @@ definitions:
         type: "string"
       suspended_sentence:
         type: "boolean"
+  Sentence:
+    type: "object"
+    required:
+    - "chargeDisposition"
+    - "judge"
+    - "phase"
+    - "commitmentTerm"
+    - "commitmentUnit"
+    - "commitmentType"
+    properties:
+      id:
+        type: "string"
+      rev:
+        type: "string"
+      chargeDisposition:
+        type: "string"
+        enum:
+          - "BFW"
+          - "Death Suggested-Cause Abated"
+          - "Finding Guilty"
+          - "FNG"
+          - "FNPC"
+          - "Nolle Prosecution"
+          - "Null"
+          - "Plea of Guilty"
+          - "SOL"
+          - "Verdict-Not Guilty"
+          - "Verdict Guilty"
+      judge:
+        type: "string"
+      phase:
+        type: "string"
+      commitmentTerm:
+        type: "integer"
+        format: "int64"
+      commitmentUnit:
+        type: "string"
+      commitmentType:
+        type: "string"
+     
   Case:
     type: "object"
     required:
     - "crime_description"
     - "reasoning_for_charges"
     - "possible_charges"
+    - "lengthOfCaseInDays"
+    - "ageAtIncident"
+    - "incidentCity"
+    - "lawEnforcementAgency"
+    - "lawEnforcementUnit"
     properties:
       id:
         type: "string"
@@ -246,6 +396,8 @@ definitions:
       crime_description:
         type: "string"
       reasoning_for_charges:
+        type: "string"
+      attorney_id:
         type: "string"
       possible_charges:
         type: "array"
@@ -266,9 +418,21 @@ definitions:
           - "9th Circuit"
           - "10th Circuit"
           - "11th Circuit"
+      incidentCity:
+        type: "string"
       state:
         type: "string"
       district:
+        type: "string"
+      lengthOfCaseInDays:
+        type: "integer"
+        format: "int64"
+      ageAtIncident:
+        type: "integer"
+        format: "int64"
+      lawEnforcementAgency:
+        type: "string"
+      lawEnforcementUnit:
         type: "string"
   Client:
     type: "object"
@@ -281,8 +445,6 @@ definitions:
         type: "string"
       rev:
         type: "string"
-      attorney_id:
-        type: "string"
       first_name:
         type: "string"
       last_name:
@@ -294,13 +456,18 @@ definitions:
           - Black
           - Hispanic
           - Other
+          - Asian
+          - American Indian
+          - Biracial
+          - White [Hispanic or Latino]
+          - White/Black [Hispanic or Latino]
+          - Unknown
       gender:
         enum:
           - Female
           - Male
           - Other
-        type: "string"
-      date_of_birth:
+          - Unknown
         type: "string"
       prior_felony_convictions:
         type: "integer"
@@ -342,8 +509,6 @@ definitions:
           - "US Citizen"
           - "Non-US Citizen"
       number_of_children_under_18_at_home:
-        type: "string"
-      health_factors:
         type: "string"
   Attorney:
     type: "object"
