@@ -149,19 +149,9 @@ definitions:
   Charge:
     type: "object"
     required:
-    - "trial_type"
     - "charge_code"
     - "attempted"
     - "primary"
-    - "sentence_type"
-    - "minimum_incarceration_months"
-    - "maximum_incarceration_months"
-    - "probation_term_months"
-    - "fine_dollars"
-    - "community_service_hours"
-    - "alternative_sentence"
-    - "suspended_sentence"
-    - "disposition_charged_class"
     properties:
       id:
         type: "string"
@@ -289,9 +279,42 @@ definitions:
           -	"Violation of Sex Offender Registration"
           -	"Violation Order Of Protection"
       attempted:
-        type: "string"
+        type: "boolean"
       primary:
         type: "boolean"
+      controlled_substance_quantity_level:
+        type: "integer"
+        minimum: 0
+        maximum: 17
+      possible_sentences:
+        type: "array"
+        items:
+          $ref: "#/definitions/Sentence"
+  Sentence:
+    type: "object"
+    required:
+    - "sentence_type"
+    properties:
+      id:
+        type: "string"
+      rev:
+        type: "string"
+      chargeDisposition:
+        type: "string"
+        enum:
+          - "BFW"
+          - "Death Suggested-Cause Abated"
+          - "Finding Guilty"
+          - "FNG"
+          - "FNPC"
+          - "Nolle Prosecution"
+          - "Null"
+          - "Plea of Guilty"
+          - "SOL"
+          - "Verdict-Not Guilty"
+          - "Verdict Guilty"
+      phase:
+        type: "string"
       sentence_type:
         type: "string"
         enum:
@@ -316,6 +339,13 @@ definitions:
           - "Probation Terminated Instanter" 
           - "Death"
           - "2nd Chance Probation"
+      commitmentTerm:
+        type: "integer"
+        format: "int64"
+      commitmentUnit:
+        type: "string"
+      commitmentType:
+        type: "string"
       minimum_incarceration_months:
         type: "integer"
         format: "int64"
@@ -325,67 +355,35 @@ definitions:
       probation_term_months:
         type: "integer"
         format: "int64"
+      minimum_probation_months:
+        type: "integer"
+        format: "int64"
+      maximum_probation_months:
+        type: "integer"
+        format: "int64"
       fine_dollars:
+        type: "integer"
+        format: "int64"
+      minimum_fine_dollars:
+        type: "integer"
+        format: "int64"
+      maximum_fine_dollars:
         type: "integer"
         format: "int64"
       community_service_hours:
         type: "integer"
         format: "int64"
+      restitution:
+        type: "string"
       alternative_sentence:
         type: "string"
       suspended_sentence:
         type: "boolean"
-  Sentence:
-    type: "object"
-    required:
-    - "chargeDisposition"
-    - "judge"
-    - "phase"
-    - "commitmentTerm"
-    - "commitmentUnit"
-    - "commitmentType"
-    properties:
-      id:
-        type: "string"
-      rev:
-        type: "string"
-      chargeDisposition:
-        type: "string"
-        enum:
-          - "BFW"
-          - "Death Suggested-Cause Abated"
-          - "Finding Guilty"
-          - "FNG"
-          - "FNPC"
-          - "Nolle Prosecution"
-          - "Null"
-          - "Plea of Guilty"
-          - "SOL"
-          - "Verdict-Not Guilty"
-          - "Verdict Guilty"
-      judge:
-        type: "string"
-      phase:
-        type: "string"
-      commitmentTerm:
-        type: "integer"
-        format: "int64"
-      commitmentUnit:
-        type: "string"
-      commitmentType:
-        type: "string"
      
   Case:
     type: "object"
     required:
-    - "crime_description"
-    - "reasoning_for_charges"
     - "possible_charges"
-    - "lengthOfCaseInDays"
-    - "ageAtIncident"
-    - "incidentCity"
-    - "lawEnforcementAgency"
-    - "lawEnforcementUnit"
     properties:
       id:
         type: "string"
@@ -393,61 +391,20 @@ definitions:
         type: "string"
       client_id:
         type: "string"
-      crime_description:
-        type: "string"
-      reasoning_for_charges:
-        type: "string"
       attorney_id:
         type: "string"
       possible_charges:
         type: "array"
         items:
           $ref: "#/definitions/Charge"
-      circuit:
-        type: "string"
-        enum:
-          - "DC Circuit"
-          - "1st Circuit"
-          - "2nd Circuit"
-          - "3rd Circuit"
-          - "4th Circuit"
-          - "5th Circuit"
-          - "6th Circuit"
-          - "7th Circuit"
-          - "8th Circuit"
-          - "9th Circuit"
-          - "10th Circuit"
-          - "11th Circuit"
-      incidentCity:
-        type: "string"
-      state:
-        type: "string"
-      district:
-        type: "string"
-      lengthOfCaseInDays:
-        type: "integer"
-        format: "int64"
-      ageAtIncident:
-        type: "integer"
-        format: "int64"
-      lawEnforcementAgency:
-        type: "string"
-      lawEnforcementUnit:
-        type: "string"
   Client:
     type: "object"
     required:
-    - "first_name"
-    - "last_name"
     - "attorney_id"
     properties:
       id:
         type: "string"
       rev:
-        type: "string"
-      first_name:
-        type: "string"
-      last_name:
         type: "string"
       race:
         type: "string"
@@ -469,12 +426,6 @@ definitions:
           - Other
           - Unknown
         type: "string"
-      prior_felony_convictions:
-        type: "integer"
-        format: "int64"
-      prior_misdemeanor_convictions:
-        type: "integer"
-        format: "int64"
       criminal_history_category:
         type: "string"
         enum:
@@ -484,42 +435,16 @@ definitions:
           - "Category IV"
           - "Category V"
           - "Category VI"
-      type_of_legal_representation:
-        type: "string"
-        enum:
-          - "Self"
-          - "Court appointed attorney"
-          - "Private attorney"
-      married:
-        type: "boolean"
-      annual_income_dollars:
-        type: "integer"
-        format: "int64"
-      education_level_completed:
-        type: "string"
-        enum:
-          - "Less than high school graduate"
-          - "High school graduate or equivalent"
-          - "Some college"
-          - "College graduate or more"
-          - "Unknown"
-      immigration_status:
-        type: "string"
-        enum:
-          - "US Citizen"
-          - "Non-US Citizen"
-      number_of_children_under_18_at_home:
-        type: "string"
   Attorney:
     type: "object"
     required:
-    - "name"
+    - "username"
     properties:
       id:
         type: "string"
       rev:
         type: "string"
-      name:
+      username:
         type: "string"
       cases:
         type: "array"
