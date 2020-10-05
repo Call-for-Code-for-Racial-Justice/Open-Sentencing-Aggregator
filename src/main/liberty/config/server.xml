@@ -1,23 +1,38 @@
 <server description="Sample Liberty server">
 
-  <featureManager>
-      <feature>microprofile-1.2</feature>
-      <feature>jndi-1.0</feature>
-  </featureManager>
+	<featureManager>
+<!-- 		<feature>microprofile-1.2</feature> -->
+		<feature>jndi-1.0</feature>
+		<feature>jaxrs-2.1</feature>
+		<feature>jsonp-1.1</feature>
+		<feature>cdi-2.0</feature>
+		<feature>mpConfig-1.4</feature>
+		<feature>mpRestClient-1.4</feature>
+		<feature>mpOpenAPI-1.1</feature>
+	</featureManager>
 
-  <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
-      id="defaultHttpEndpoint" host="*" />
+	<basicRegistry id="basic" realm="ibm/api">
+		<user name="siran" password="siran" />
+	</basicRegistry>
 
-  <!-- Automatically expand WAR files and EAR files -->
-  <applicationManager autoExpand="true"/>
 
-  <applicationMonitor pollingRate="1000ms"/>
+	<mpMetrics authentication="false" />
 
-  <webApplication name="javalibertyapp-1.0-SNAPSHOT" location="${app.location}" contextRoot="/"/>
+	<httpEndpoint httpPort="${default.http.port}"
+		httpsPort="${default.https.port}" id="defaultHttpEndpoint" host="*" />
 
-  <ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+	<!-- Automatically expand WAR files and EAR files -->
+	<applicationManager autoExpand="true" />
 
-  <!--<ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" />
-  <keyStore id="defaultTrustStore" password="passw0rd" type="jks" location="${server.config.dir}/resources/security/keystore.jks" />-->
+	<applicationMonitor pollingRate="1000ms" />
+
+	<webApplication name="outcarcerate-aggregator-0.0.1"
+		location="${app.location}" contextRoot="/" />
+
+	<ssl id="defaultSSLConfig" trustDefaultCerts="true" />
+
+	<!--<ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" 
+		/> <keyStore id="defaultTrustStore" password="passw0rd" type="jks" location="${server.config.dir}/resources/security/keystore.jks" 
+		/> -->
 
 </server>
