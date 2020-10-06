@@ -20,8 +20,8 @@ public class Bootstrap extends HttpServlet {
       .contact(new Contact()
         .email(""))
       .license(new License()
-        .name("")
-        .url("http://unlicense.org"));
+        .name("Apache 2.0")
+        .url("http://www.apache.org/licenses/LICENSE-2.0.html"));
 
     ServletContext context = config.getServletContext();
     Swagger swagger = new Swagger().info(info);

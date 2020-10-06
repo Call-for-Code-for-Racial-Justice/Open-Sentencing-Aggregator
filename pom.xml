@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>projects</groupId>
-    <artifactId>javalibertyapp</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>outcarcerate-aggregator</artifactId>
+    <version>0.0.1</version>
     <packaging>war</packaging>
 
     <!-- contains default pluginManagement configuration for liberty-maven-plugin -->
@@ -17,8 +17,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
 
         <swagger-core-version>1.5.18</swagger-core-version>
         <jetty-version>9.3.27.v20190418</jetty-version>
@@ -73,7 +73,7 @@
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
-            <version>1.2</version>
+            <version>3.3</version>
             <scope>provided</scope>
             <type>pom</type>
         </dependency>

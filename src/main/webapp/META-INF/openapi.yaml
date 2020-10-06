@@ -1,0 +1,493 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0-oas3
+  title: Outcarcerate
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: attorney
+    description: Attorney
+  - name: client
+    description: Client
+  - name: case
+    description: Case
+  - name: charge
+    description: Charge
+  - name: sentence
+    description: Sentence
+paths:
+  /attorney:
+    post:
+      tags:
+        - attorney
+      summary: Add a new attorney
+      description: ''
+      operationId: addAttorney
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attorney'
+        required: true
+    get:
+      tags:
+        - attorney
+      summary: Get a list of attorneys
+      description: Returns a all attorneys
+      operationId: getAllAttorneys
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttorneyResponse'
+  '/attorney/{attorneyId}':
+    get:
+      tags:
+        - attorney
+      summary: Find attorney by ID
+      description: Returns a single attorney
+      operationId: getAttorneyById
+      parameters:
+        - name: attorneyId
+          in: path
+          description: ID of attorney to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttorneyResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Attorney not found
+  /client:
+    post:
+      tags:
+        - client
+      summary: Add a new client
+      description: ''
+      operationId: addClient
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+    get:
+      tags:
+        - client
+      summary: Get a list of clients for an attorney
+      description: Returns all clients of an attorney
+      operationId: getClients
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientFilter'
+        required: true
+  '/client/{clientId}':
+    get:
+      tags:
+        - client
+      summary: Find client by ID
+      description: Returns a single client
+      operationId: getClientById
+      parameters:
+        - name: clientId
+          in: path
+          description: ID of client to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Client not found
+servers:
+  - url: /v1
+components:
+  schemas:
+    Charge:
+      type: object
+      required:
+        - charge_code
+        - attempted
+        - primary
+      properties:
+        _id:
+          type: string
+        _rev:
+          type: string
+        trial_type:
+          type: string
+          enum:
+            - Guilty plea
+            - Trial by judge
+            - Trial by jury
+        disposition_charged_class:
+          type: string
+        charge_code:
+          type: string
+          enum:
+            - Administration of Justice
+            - Aggravated Assault Police Officer
+            - Aggravated Battery Police Officer
+            - Aggravated Battery With A Firearm
+            - Aggravated Battery
+            - Aggravated Discharge Firearm
+            - Aggravated DUI
+            - Aggravated Fleeing and Eluding
+            - Aggravated Identity Theft
+            - Aggravated Robbery
+            - Antitrust
+            - Armed Robbery
+            - Armed Violence
+            - Arson and Attempt Arson
+            - Arson
+            - Attempt Armed Robbery
+            - Attempt Arson
+            - Attempt First Degree Murder
+            - Attempt Homicide
+            - Attempt Sex Crimes
+            - Attempt Vehicular Hijacking
+            - Battery
+            - Bomb Threat
+            - Bribery
+            - Bribery/Corruption
+            - Burglary
+            - Burglary/Trespass
+            - Child Abduction
+            - Child Pornography
+            - Commercialized Vice
+            - Communicating With Witness
+            - Credit Card Cases
+            - Criminal Damage to Property
+            - Criminal Trespass To Residence
+            - Deceptive Practice
+            - Disarming Police Officer
+            - Dog Fighting
+            - Domestic Battery
+            - Driving With Suspended Or Revoked License
+            - Drug Possession
+            - Drug Trafficking
+            - DUI
+            - Environmental
+            - Escape - Failure to Return
+            - Extortion/Racketeering
+            - FALSIFICATION OF ACCOUNTS
+            - Failure to Register as a Sex Offender
+            - Firearms
+            - Food and Drug
+            - Forgery
+            - Forgery/Counter/Copyright
+            - Fraud
+            - Fraud/Theft/Embezzlement
+            - Fraudulent ID
+            - Gambling
+            - Gun - Non UUW
+            - Gun Running
+            - Hate Crimes
+            - Home Invasion
+            - Homicide
+            - Human Trafficking
+            - Identity Theft
+            - Immigration
+            - Impersonating Police Officer
+            - Intimidation
+            - Invidual Rights
+            - Kidnapping
+            - Major Accidents
+            - Manslaughter
+            - Money Laundering
+            - Murder
+            - Narcotics
+            - National Defense
+            - Obscenity/Other Sex Offenses
+            - Obstructing Justice
+            - Official Misconduct
+            - Other Offense
+            - Other
+            - Pandering
+            - Perjury
+            - Possession Of Burglary Tools
+            - Possession of Contraband in Penal Institution
+            - Possession of Explosives
+            - Possession of Stolen Motor Vehicle
+            - Prison Offenses
+            - PROMIS Conversion
+            - Prostitution
+            - Reckless Discharge of Firearm
+            - Reckless Homicide
+            - Residential Burglary
+            - Retail Theft
+            - REVOKED/SUSPENDED 2ND+ DUI
+            - Robbery
+            - Sex Crimes
+            - SEX WITH ANIMAL/<18 PRESENT
+            - Sexual Abuse
+            - Stalking
+            - Stalking/Harassing
+            - Tampering
+            - Tax
+            - Theft by Deception
+            - Theft
+            - Unlawful Restraint
+            - UUW - Unlawful Use of Weapon
+            - Vehicular Hijacking
+            - Vehicular Invasion
+            - Violate Bail Bond
+            - VIO BAIL BOND/CLASS X CONVIC
+            - Violation of Sex Offender Registration
+            - Violation Order Of Protection
+        attempted:
+          type: boolean
+        primary:
+          type: boolean
+        controlled_substance_quantity_level:
+          type: integer
+          minimum: 0
+          maximum: 17
+        possible_sentences:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sentence'
+    Sentence:
+      type: object
+      required:
+        - sentence_type
+      properties:
+        _id:
+          type: string
+        _rev:
+          type: string
+        chargeDisposition:
+          type: string
+          enum:
+            - BFW
+            - Death Suggested-Cause Abated
+            - Finding Guilty
+            - FNG
+            - FNPC
+            - Nolle Prosecution
+            - 'Null'
+            - Plea of Guilty
+            - SOL
+            - Verdict-Not Guilty
+            - Verdict Guilty
+        phase:
+          type: string
+        sentence_type:
+          type: string
+          enum:
+            - Prison Only
+            - Prison and Alternatives
+            - Probation Only
+            - Probation and Alternatives
+            - Fine Ordered/No Restitution
+            - Restitution Ordered/No Fine
+            - Both Fine & Restitution Ordered
+            - Prison
+            - Supervision
+            - Conditional Discharge
+            - Probation
+            - Jail
+            - Conversion
+            - Cook County Boot Camp
+            - Probation Terminated Satisfactorily
+            - Inpatient Mental Health Services
+            - Probation Terminated Unsatisfactorily
+            - Conditional Release
+            - Probation Terminated Instanter
+            - Death
+            - 2nd Chance Probation
+        commitmentTerm:
+          type: integer
+          format: int64
+        commitmentUnit:
+          type: string
+        commitmentType:
+          type: string
+        minimum_incarceration_months:
+          type: integer
+          format: int64
+        maximum_incarceration_months:
+          type: integer
+          format: int64
+        probation_term_months:
+          type: integer
+          format: int64
+        minimum_probation_months:
+          type: integer
+          format: int64
+        maximum_probation_months:
+          type: integer
+          format: int64
+        fine_dollars:
+          type: integer
+          format: int64
+        minimum_fine_dollars:
+          type: integer
+          format: int64
+        maximum_fine_dollars:
+          type: integer
+          format: int64
+        community_service_hours:
+          type: integer
+          format: int64
+        restitution:
+          type: string
+        alternative_sentence:
+          type: string
+        suspended_sentence:
+          type: boolean
+    Case:
+      type: object
+      required:
+        - possible_charges
+      properties:
+        _id:
+          type: string
+        _rev:
+          type: string
+        client_id:
+          type: string
+        attorney_id:
+          type: string
+        possible_charges:
+          type: array
+          items:
+            $ref: '#/components/schemas/Charge'
+    Client:
+      type: object
+      required:
+        - attorney_id
+      properties:
+        _id:
+          type: string
+        _rev:
+          type: string
+        race:
+          type: string
+          enum:
+            - White
+            - Black
+            - Hispanic
+            - Other
+            - Asian
+            - American Indian
+            - Biracial
+            - 'White [Hispanic or Latino]'
+            - 'White/Black [Hispanic or Latino]'
+            - Unknown
+        gender:
+          enum:
+            - Female
+            - Male
+            - Other
+            - Unknown
+          type: string
+        criminal_history_category:
+          type: string
+          enum:
+            - Category I
+            - Category II
+            - Category III
+            - Category IV
+            - Category V
+            - Category VI
+    Attorney:
+      type: object
+      required:
+        - username
+      properties:
+        _id:
+          type: string
+        _rev:
+          type: string
+        username:
+          type: string
+        cases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Case'
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    AttorneyResponse:
+      type: object
+      required:
+        - success
+      properties:
+        code:
+          type: integer
+          format: int32
+        success:
+          type: boolean
+        error:
+          type: string
+        warning:
+          type: string
+        attorney:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attorney'
+    ClientResponse:
+      type: object
+      required:
+        - success
+      properties:
+        code:
+          type: integer
+          format: int32
+        success:
+          type: boolean
+        error:
+          type: string
+        warning:
+          type: string
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+    ClientFilter:
+      type: object
+      required:
+        - attorneyId
+      properties:
+        attorney_id:
+          type: string
