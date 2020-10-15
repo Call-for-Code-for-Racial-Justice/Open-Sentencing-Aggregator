@@ -18,36 +18,39 @@ import static com.cloudant.client.api.query.Operation.and;
 import io.swagger.model.Client;
 
 public class ClientModel {
-  private CloudantClient client = null;
-  private Database db = null;
+	private Database db = null;
 
-  public ClientModel(String url, String apiKey, String database) {
-    System.out.println(url);
-    CloudantClient client = null;
-    try {
-      client = ClientBuilder
-          .url(new URL(url))
-          .iamApiKey(apiKey).build();
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    }
+	public ClientModel(String url, String apiKey, String database) {
+		System.out.println(url);
+		CloudantClient client = null;
+		try {
+			client = ClientBuilder.url(new URL(url)).iamApiKey(apiKey).build();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 
-    System.out.println("Server Version: " + client.serverVersion());
-    db = client.database(database, false);
-  }
+		System.out.println("Server Version: " + client.serverVersion());
+		db = client.database(database, false);
+	}
 
-  public Response save(Client client) {
-    Response resp = db.save(client);
-    return resp;
-  }
+	public Response save(Client client) {
+		Response resp = db.save(client);
+		return resp;
+	}
 
-  public Client read(String id) {
-    Client client = db.find(Client.class, id);
-    return client;
-  }
+	public Response delete(String id) {
+		Client client = db.find(Client.class, id);
+		Response resp = db.remove(client);
+		return resp;
+	}
 
-  public QueryResult<Client> getAllClientsOfAttorney(String attorneyId) {
-    QueryResult<Client> qr = db.query(new QueryBuilder(eq("attorneyId", attorneyId)).build(), Client.class);
-    return qr;
-  }
+	public Client read(String id) {
+		Client client = db.find(Client.class, id);
+		return client;
+	}
+
+	public QueryResult<Client> getAllClientsOfAttorney(String attorneyId) {
+		QueryResult<Client> qr = db.query(new QueryBuilder(eq("attorneyId", attorneyId)).build(), Client.class);
+		return qr;
+	}
 }

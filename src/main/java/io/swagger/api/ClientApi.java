@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import io.swagger.model.Client;
-import io.swagger.model.ClientFilter;
 import io.swagger.model.ClientResponse;
 
 import java.util.Map;
@@ -27,11 +26,11 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
 
-@Path("/v1/client")
+@Path("/client")
 
 
 @io.swagger.annotations.Api(description = "the client API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-05T20:11:58.952Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-13T17:17:47.836Z")
 public class ClientApi  {
    private final ClientApiService delegate;
 
@@ -68,32 +67,31 @@ public class ClientApi  {
     throws NotFoundException {
         return delegate.addClient(body,securityContext);
     }
-    @GET
+    @DELETE
     @Path("/{clientId}")
     
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Find client by ID", notes = "Returns a single client", response = ClientResponse.class, tags={ "client", })
+    @io.swagger.annotations.ApiOperation(value = "Delete client by ID", notes = "Returns a single client", response = Void.class, tags={ "client", })
     @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ClientResponse.class),
-        
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Client not found", response = Void.class) })
-    public Response getClientById(@ApiParam(value = "ID of client to return",required=true) @PathParam("clientId") String clientId
+    public Response deleteClientById(@ApiParam(value = "ID of client to delete",required=true) @PathParam("clientId") String clientId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getClientById(clientId,securityContext);
+        return delegate.deleteClientById(clientId,securityContext);
     }
     @GET
     
-    @Consumes({ "application/json" })
+    
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Get a list of clients for an attorney", notes = "Returns all clients of an attorney", response = ClientResponse.class, tags={ "client", })
+    @io.swagger.annotations.ApiOperation(value = "Get a list of clients by client or by attorney", notes = "Returns all clients of an attorney", response = ClientResponse.class, tags={ "client", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ClientResponse.class) })
-    public Response getClients(@ApiParam(value = "" ,required=true) ClientFilter body
+    public Response getClients(@ApiParam(value = "") @QueryParam("clientId") String clientId
+,@ApiParam(value = "") @QueryParam("attorneyId") String attorneyId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getClients(body,securityContext);
+        return delegate.getClients(clientId,attorneyId,securityContext);
     }
 }

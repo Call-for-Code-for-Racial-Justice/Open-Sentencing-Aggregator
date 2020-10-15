@@ -16,9 +16,10 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-05T20:11:58.952Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-13T17:17:47.836Z")
 public abstract class AttorneyApiService {
     public abstract Response addAttorney(Attorney body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response deleteAttorneyById(String attorneyId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response getAllAttorneys(SecurityContext securityContext) throws NotFoundException;
     public abstract Response getAttorneyById(String attorneyId,SecurityContext securityContext) throws NotFoundException;
 }

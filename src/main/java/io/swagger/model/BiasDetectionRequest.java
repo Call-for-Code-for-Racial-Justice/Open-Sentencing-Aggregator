@@ -19,61 +19,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Sentence;
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.constraints.*;
 
 /**
- * Charge
+ * BiasDetectionRequest
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-13T17:17:47.836Z")
-public class Charge   {
-  @JsonProperty("_id")
-  private String id = null;
-
-  @JsonProperty("_rev")
-  private String rev = null;
-
-  /**
-   * Gets or Sets trialType
-   */
-  public enum TrialTypeEnum {
-    GUILTY_PLEA("Guilty plea"),
-    
-    TRIAL_BY_JUDGE("Trial by judge"),
-    
-    TRIAL_BY_JURY("Trial by jury");
-
-    private String value;
-
-    TrialTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TrialTypeEnum fromValue(String text) {
-      for (TrialTypeEnum b : TrialTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("trial_type")
-  private TrialTypeEnum trialType = null;
-
-  @JsonProperty("disposition_charged_class")
-  private String dispositionChargedClass = null;
-
+public class BiasDetectionRequest   {
   /**
    * Gets or Sets chargeCode
    */
@@ -324,95 +276,98 @@ public class Charge   {
   @JsonProperty("charge_code")
   private ChargeCodeEnum chargeCode = null;
 
-  @JsonProperty("attempted")
-  private Boolean attempted = null;
+  /**
+   * Gets or Sets race
+   */
+  public enum RaceEnum {
+    WHITE("White"),
+    
+    BLACK("Black"),
+    
+    HISPANIC("Hispanic"),
+    
+    OTHER("Other"),
+    
+    ASIAN("Asian"),
+    
+    AMERICAN_INDIAN("American Indian"),
+    
+    BIRACIAL("Biracial"),
+    
+    WHITE_HISPANIC_OR_LATINO_("White [Hispanic or Latino]"),
+    
+    WHITE_BLACK_HISPANIC_OR_LATINO_("White/Black [Hispanic or Latino]"),
+    
+    UNKNOWN("Unknown");
 
-  @JsonProperty("primary")
-  private Boolean primary = null;
+    private String value;
+
+    RaceEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static RaceEnum fromValue(String text) {
+      for (RaceEnum b : RaceEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("race")
+  private RaceEnum race = null;
+
+  /**
+   * Gets or Sets gender
+   */
+  public enum GenderEnum {
+    FEMALE("Female"),
+    
+    MALE("Male"),
+    
+    OTHER("Other"),
+    
+    UNKNOWN("Unknown");
+
+    private String value;
+
+    GenderEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static GenderEnum fromValue(String text) {
+      for (GenderEnum b : GenderEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("gender")
+  private GenderEnum gender = null;
 
   @JsonProperty("controlled_substance_quantity_level")
   private Integer controlledSubstanceQuantityLevel = null;
 
-  @JsonProperty("possible_sentences")
-  private List<Sentence> possibleSentences = null;
-
-  public Charge id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-   **/
-  @JsonProperty("_id")
-  @ApiModelProperty(value = "")
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Charge rev(String rev) {
-    this.rev = rev;
-    return this;
-  }
-
-  /**
-   * Get rev
-   * @return rev
-   **/
-  @JsonProperty("_rev")
-  @ApiModelProperty(value = "")
-  public String getRev() {
-    return rev;
-  }
-
-  public void setRev(String rev) {
-    this.rev = rev;
-  }
-
-  public Charge trialType(TrialTypeEnum trialType) {
-    this.trialType = trialType;
-    return this;
-  }
-
-  /**
-   * Get trialType
-   * @return trialType
-   **/
-  @JsonProperty("trial_type")
-  @ApiModelProperty(value = "")
-  public TrialTypeEnum getTrialType() {
-    return trialType;
-  }
-
-  public void setTrialType(TrialTypeEnum trialType) {
-    this.trialType = trialType;
-  }
-
-  public Charge dispositionChargedClass(String dispositionChargedClass) {
-    this.dispositionChargedClass = dispositionChargedClass;
-    return this;
-  }
-
-  /**
-   * Get dispositionChargedClass
-   * @return dispositionChargedClass
-   **/
-  @JsonProperty("disposition_charged_class")
-  @ApiModelProperty(value = "")
-  public String getDispositionChargedClass() {
-    return dispositionChargedClass;
-  }
-
-  public void setDispositionChargedClass(String dispositionChargedClass) {
-    this.dispositionChargedClass = dispositionChargedClass;
-  }
-
-  public Charge chargeCode(ChargeCodeEnum chargeCode) {
+  public BiasDetectionRequest chargeCode(ChargeCodeEnum chargeCode) {
     this.chargeCode = chargeCode;
     return this;
   }
@@ -432,47 +387,47 @@ public class Charge   {
     this.chargeCode = chargeCode;
   }
 
-  public Charge attempted(Boolean attempted) {
-    this.attempted = attempted;
+  public BiasDetectionRequest race(RaceEnum race) {
+    this.race = race;
     return this;
   }
 
   /**
-   * Get attempted
-   * @return attempted
+   * Get race
+   * @return race
    **/
-  @JsonProperty("attempted")
+  @JsonProperty("race")
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  public Boolean isAttempted() {
-    return attempted;
+  public RaceEnum getRace() {
+    return race;
   }
 
-  public void setAttempted(Boolean attempted) {
-    this.attempted = attempted;
+  public void setRace(RaceEnum race) {
+    this.race = race;
   }
 
-  public Charge primary(Boolean primary) {
-    this.primary = primary;
+  public BiasDetectionRequest gender(GenderEnum gender) {
+    this.gender = gender;
     return this;
   }
 
   /**
-   * Get primary
-   * @return primary
+   * Get gender
+   * @return gender
    **/
-  @JsonProperty("primary")
+  @JsonProperty("gender")
   @ApiModelProperty(required = true, value = "")
   @NotNull
-  public Boolean isPrimary() {
-    return primary;
+  public GenderEnum getGender() {
+    return gender;
   }
 
-  public void setPrimary(Boolean primary) {
-    this.primary = primary;
+  public void setGender(GenderEnum gender) {
+    this.gender = gender;
   }
 
-  public Charge controlledSubstanceQuantityLevel(Integer controlledSubstanceQuantityLevel) {
+  public BiasDetectionRequest controlledSubstanceQuantityLevel(Integer controlledSubstanceQuantityLevel) {
     this.controlledSubstanceQuantityLevel = controlledSubstanceQuantityLevel;
     return this;
   }
@@ -484,40 +439,14 @@ public class Charge   {
    * @return controlledSubstanceQuantityLevel
    **/
   @JsonProperty("controlled_substance_quantity_level")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
  @Min(0) @Max(17)  public Integer getControlledSubstanceQuantityLevel() {
     return controlledSubstanceQuantityLevel;
   }
 
   public void setControlledSubstanceQuantityLevel(Integer controlledSubstanceQuantityLevel) {
     this.controlledSubstanceQuantityLevel = controlledSubstanceQuantityLevel;
-  }
-
-  public Charge possibleSentences(List<Sentence> possibleSentences) {
-    this.possibleSentences = possibleSentences;
-    return this;
-  }
-
-  public Charge addPossibleSentencesItem(Sentence possibleSentencesItem) {
-    if (this.possibleSentences == null) {
-      this.possibleSentences = new ArrayList<Sentence>();
-    }
-    this.possibleSentences.add(possibleSentencesItem);
-    return this;
-  }
-
-  /**
-   * Get possibleSentences
-   * @return possibleSentences
-   **/
-  @JsonProperty("possible_sentences")
-  @ApiModelProperty(value = "")
-  public List<Sentence> getPossibleSentences() {
-    return possibleSentences;
-  }
-
-  public void setPossibleSentences(List<Sentence> possibleSentences) {
-    this.possibleSentences = possibleSentences;
   }
 
 
@@ -529,38 +458,28 @@ public class Charge   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Charge charge = (Charge) o;
-    return Objects.equals(this.id, charge.id) &&
-        Objects.equals(this.rev, charge.rev) &&
-        Objects.equals(this.trialType, charge.trialType) &&
-        Objects.equals(this.dispositionChargedClass, charge.dispositionChargedClass) &&
-        Objects.equals(this.chargeCode, charge.chargeCode) &&
-        Objects.equals(this.attempted, charge.attempted) &&
-        Objects.equals(this.primary, charge.primary) &&
-        Objects.equals(this.controlledSubstanceQuantityLevel, charge.controlledSubstanceQuantityLevel) &&
-        Objects.equals(this.possibleSentences, charge.possibleSentences);
+    BiasDetectionRequest biasDetectionRequest = (BiasDetectionRequest) o;
+    return Objects.equals(this.chargeCode, biasDetectionRequest.chargeCode) &&
+        Objects.equals(this.race, biasDetectionRequest.race) &&
+        Objects.equals(this.gender, biasDetectionRequest.gender) &&
+        Objects.equals(this.controlledSubstanceQuantityLevel, biasDetectionRequest.controlledSubstanceQuantityLevel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, rev, trialType, dispositionChargedClass, chargeCode, attempted, primary, controlledSubstanceQuantityLevel, possibleSentences);
+    return Objects.hash(chargeCode, race, gender, controlledSubstanceQuantityLevel);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Charge {\n");
+    sb.append("class BiasDetectionRequest {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    rev: ").append(toIndentedString(rev)).append("\n");
-    sb.append("    trialType: ").append(toIndentedString(trialType)).append("\n");
-    sb.append("    dispositionChargedClass: ").append(toIndentedString(dispositionChargedClass)).append("\n");
     sb.append("    chargeCode: ").append(toIndentedString(chargeCode)).append("\n");
-    sb.append("    attempted: ").append(toIndentedString(attempted)).append("\n");
-    sb.append("    primary: ").append(toIndentedString(primary)).append("\n");
+    sb.append("    race: ").append(toIndentedString(race)).append("\n");
+    sb.append("    gender: ").append(toIndentedString(gender)).append("\n");
     sb.append("    controlledSubstanceQuantityLevel: ").append(toIndentedString(controlledSubstanceQuantityLevel)).append("\n");
-    sb.append("    possibleSentences: ").append(toIndentedString(possibleSentences)).append("\n");
     sb.append("}");
     return sb.toString();
   }
