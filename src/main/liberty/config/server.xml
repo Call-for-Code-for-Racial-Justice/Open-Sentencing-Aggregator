@@ -11,11 +11,6 @@
 		<feature>mpOpenAPI-1.1</feature>
 	</featureManager>
 
-	<basicRegistry id="basic" realm="ibm/api">
-		<user name="siran" password="siran" />
-	</basicRegistry>
-
-
 	<mpMetrics authentication="false" />
 
 	<httpEndpoint httpPort="${default.http.port}"

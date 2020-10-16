@@ -18,16 +18,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Client;
+import io.swagger.model.ModelCase;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
 
 /**
- * ClientResponse
+ * CaseResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-13T17:17:47.836Z")
-public class ClientResponse   {
+public class CaseResponse   {
   @JsonProperty("code")
   private Integer code = null;
 
@@ -41,9 +41,9 @@ public class ClientResponse   {
   private String warning = null;
 
   @JsonProperty("clients")
-  private List<Client> clients = null;
+  private List<ModelCase> clients = null;
 
-  public ClientResponse code(Integer code) {
+  public CaseResponse code(Integer code) {
     this.code = code;
     return this;
   }
@@ -62,7 +62,7 @@ public class ClientResponse   {
     this.code = code;
   }
 
-  public ClientResponse success(Boolean success) {
+  public CaseResponse success(Boolean success) {
     this.success = success;
     return this;
   }
@@ -82,7 +82,7 @@ public class ClientResponse   {
     this.success = success;
   }
 
-  public ClientResponse error(String error) {
+  public CaseResponse error(String error) {
     this.error = error;
     return this;
   }
@@ -101,7 +101,7 @@ public class ClientResponse   {
     this.error = error;
   }
 
-  public ClientResponse warning(String warning) {
+  public CaseResponse warning(String warning) {
     this.warning = warning;
     return this;
   }
@@ -120,14 +120,14 @@ public class ClientResponse   {
     this.warning = warning;
   }
 
-  public ClientResponse clients(List<Client> clients) {
+  public CaseResponse clients(List<ModelCase> clients) {
     this.clients = clients;
     return this;
   }
 
-  public ClientResponse addClientsItem(Client clientsItem) {
+  public CaseResponse addClientsItem(ModelCase clientsItem) {
     if (this.clients == null) {
-      this.clients = new ArrayList<Client>();
+      this.clients = new ArrayList<ModelCase>();
     }
     this.clients.add(clientsItem);
     return this;
@@ -139,11 +139,11 @@ public class ClientResponse   {
    **/
   @JsonProperty("clients")
   @ApiModelProperty(value = "")
-  public List<Client> getClients() {
+  public List<ModelCase> getClients() {
     return clients;
   }
 
-  public void setClients(List<Client> clients) {
+  public void setClients(List<ModelCase> clients) {
     this.clients = clients;
   }
 
@@ -156,12 +156,12 @@ public class ClientResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ClientResponse clientResponse = (ClientResponse) o;
-    return Objects.equals(this.code, clientResponse.code) &&
-        Objects.equals(this.success, clientResponse.success) &&
-        Objects.equals(this.error, clientResponse.error) &&
-        Objects.equals(this.warning, clientResponse.warning) &&
-        Objects.equals(this.clients, clientResponse.clients);
+    CaseResponse caseResponse = (CaseResponse) o;
+    return Objects.equals(this.code, caseResponse.code) &&
+        Objects.equals(this.success, caseResponse.success) &&
+        Objects.equals(this.error, caseResponse.error) &&
+        Objects.equals(this.warning, caseResponse.warning) &&
+        Objects.equals(this.clients, caseResponse.clients);
   }
 
   @Override
@@ -173,7 +173,7 @@ public class ClientResponse   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClientResponse {\n");
+    sb.append("class CaseResponse {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    success: ").append(toIndentedString(success)).append("\n");

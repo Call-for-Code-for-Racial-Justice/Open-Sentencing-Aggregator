@@ -62,4 +62,15 @@ public class AttorneyApiServiceImpl extends AttorneyApiService {
         System.out.println("Attorney: " + attorney.toString());
         return Response.ok().entity(attorney).build();
     }
+    @Override
+    public Response deleteAttorneyById(String attorneyId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+    	com.cloudant.client.api.model.Response resp = am.delete(attorneyId);
+        if(resp.getError() == null) {
+            return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, resp.getId())).build();
+        } else {
+            return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.ERROR, resp.getError())).build();
+        }
+        
+    }
 }

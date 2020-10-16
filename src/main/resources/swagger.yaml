@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
-  version: "1.0.1"
-  # Integrated with OpenSentencingModel data objects
+  version: "1.0.2"
+  # Integrated BDE models and created new APIs
   title: "Outcarcerate"
   license:
     name: Apache 2.0
@@ -80,6 +80,25 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Attorney not found"
+    delete:
+      tags:
+      - "attorney"
+      summary: "Delete attorney by ID"
+      description: "Delete a single attorney"
+      operationId: "deleteAttorneyById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "attorneyId"
+        in: "path"
+        description: "ID of attorney to delete"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Attorney not found"
   /client:
     post:
       tags:
@@ -103,48 +122,148 @@ paths:
     get:
       tags:
       - "client"
-      summary: "Get a list of clients for an attorney"
+      summary: "Get a list of clients by client or by attorney"
       description: "Returns all clients of an attorney"
       operationId: "getClients"
-      consumes:
-      - "application/json"
       produces:
       - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/ClientFilter"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/ClientResponse"
-  /client/{clientId}:
-    get:
-      tags:
-      - "client"
-      summary: "Find client by ID"
-      description: "Returns a single client"
-      operationId: "getClientById"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "clientId"
-        in: "path"
-        description: "ID of client to return"
-        required: true
+      - in: "query"
+        name: "clientId"
+        required: false
+        type: "string"
+      - in: "query"
+        name: "attorneyId"
+        required: false
         type: "string"
       responses:
         "200":
           description: "successful operation"
           schema:
             $ref: "#/definitions/ClientResponse"
+  /client/{clientId}:
+    delete:
+      tags:
+      - "client"
+      summary: "Delete client by ID"
+      description: "Returns a single client"
+      operationId: "deleteClientById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "clientId"
+        in: "path"
+        description: "ID of client to delete"
+        required: true
+        type: "string"
+      responses:
         "400":
           description: "Invalid ID supplied"
         "404":
           description: "Client not found"
+  /case:
+    post:
+      tags:
+      - "case"
+      summary: "Add a new case to an attorney"
+      description: ""
+      operationId: "addCase"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: query
+        name: attorneyId
+        type : integer
+        required: true
+        description: "Enter the attorney id for which the case to be added"
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Case"
+      responses:
+        "405":
+          description: "Invalid input"
+  /case/{attorneyId}:
+    get:
+      tags:
+      - "case"
+      summary: "Get all cases for attorney"
+      description: "Returns a single case"
+      operationId: "getCaseById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "attorneyId"
+        in: "path"
+        description: "ID of attorney"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CaseResponse"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Case not found"
+  /case/{attorneyId}/{caseId}:
+    get:
+      tags:
+      - "case"
+      summary: "Get all cases for attorney"
+      description: "Returns a single case"
+      operationId: "getCase"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "attorneyId"
+        in: "path"
+        description: "ID of attorney"
+        required: true
+        type: "string"
+      - name: "caseId"
+        in: "path"
+        description: "ID of case"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/CaseResponse"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Case not found"
+    delete:
+      tags:
+      - "case"
+      summary: "Delete case by ID"
+      description: "Delete a single case"
+      operationId: "deleteCaseById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "attorneyId"
+        in: "path"
+        description: "ID of attorney"
+        required: true
+        type: "string"
+      - name: "caseId"
+        in: "path"
+        description: "ID of case to delete"
+        required: true
+        type: "string"
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Case not found"
+
 definitions:
   Charge:
     type: "object"
@@ -153,9 +272,9 @@ definitions:
     - "attempted"
     - "primary"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       trial_type:
         type: "string"
@@ -295,9 +414,9 @@ definitions:
     required:
     - "sentence_type"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       chargeDisposition:
         type: "string"
@@ -385,9 +504,9 @@ definitions:
     required:
     - "possible_charges"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       client_id:
         type: "string"
@@ -402,9 +521,9 @@ definitions:
     required:
     - "attorney_id"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       race:
         type: "string"
@@ -440,9 +559,9 @@ definitions:
     required:
     - "charge_code"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       charge_code:
         type: "string"
@@ -455,9 +574,9 @@ definitions:
     required:
     - "username"
     properties:
-      id:
+      _id:
         type: "string"
-      rev:
+      _rev:
         type: "string"
       username:
         type: "string"
@@ -816,10 +935,21 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Client"
-  ClientFilter:
+  CaseResponse:
     type: "object"
     required:
-    - "attorneyId"
+    - "success"
     properties:
-      attorney_id:
+      code:
+        type: "integer"
+        format: "int32"
+      success:
+        type: "boolean"
+      error:
         type: "string"
+      warning:
+        type: "string"
+      clients:
+        type: "array"
+        items:
+          $ref: "#/definitions/Case"

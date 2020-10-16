@@ -26,11 +26,11 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
 
-@Path("/v1/attorney")
+@Path("/attorney")
 
 
 @io.swagger.annotations.Api(description = "the attorney API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-05T20:11:58.952Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-13T17:17:47.836Z")
 public class AttorneyApi  {
    private final AttorneyApiService delegate;
 
@@ -66,6 +66,20 @@ public class AttorneyApi  {
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addAttorney(body,securityContext);
+    }
+    @DELETE
+    @Path("/{attorneyId}")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Delete attorney by ID", notes = "Delete a single attorney", response = Void.class, tags={ "attorney", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Attorney not found", response = Void.class) })
+    public Response deleteAttorneyById(@ApiParam(value = "ID of attorney to delete",required=true) @PathParam("attorneyId") String attorneyId
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.deleteAttorneyById(attorneyId,securityContext);
     }
     @GET
     

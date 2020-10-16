@@ -18,16 +18,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.Client;
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.model.BiasDetectionResponse;
+import io.swagger.model.Discrepancy;
 import javax.validation.constraints.*;
 
 /**
- * ClientResponse
+ * CaseReport
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-13T17:17:47.836Z")
-public class ClientResponse   {
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2020-10-15T21:00:06.855Z")
+public class CaseReport   {
   @JsonProperty("code")
   private Integer code = null;
 
@@ -37,13 +36,13 @@ public class ClientResponse   {
   @JsonProperty("error")
   private String error = null;
 
-  @JsonProperty("warning")
-  private String warning = null;
+  @JsonProperty("bias")
+  private BiasDetectionResponse bias = null;
 
-  @JsonProperty("clients")
-  private List<Client> clients = null;
+  @JsonProperty("discrepancy")
+  private Discrepancy discrepancy = null;
 
-  public ClientResponse code(Integer code) {
+  public CaseReport code(Integer code) {
     this.code = code;
     return this;
   }
@@ -62,7 +61,7 @@ public class ClientResponse   {
     this.code = code;
   }
 
-  public ClientResponse success(Boolean success) {
+  public CaseReport success(Boolean success) {
     this.success = success;
     return this;
   }
@@ -82,7 +81,7 @@ public class ClientResponse   {
     this.success = success;
   }
 
-  public ClientResponse error(String error) {
+  public CaseReport error(String error) {
     this.error = error;
     return this;
   }
@@ -101,50 +100,42 @@ public class ClientResponse   {
     this.error = error;
   }
 
-  public ClientResponse warning(String warning) {
-    this.warning = warning;
+  public CaseReport bias(BiasDetectionResponse bias) {
+    this.bias = bias;
     return this;
   }
 
   /**
-   * Get warning
-   * @return warning
+   * Get bias
+   * @return bias
    **/
-  @JsonProperty("warning")
+  @JsonProperty("bias")
   @ApiModelProperty(value = "")
-  public String getWarning() {
-    return warning;
+  public BiasDetectionResponse getBias() {
+    return bias;
   }
 
-  public void setWarning(String warning) {
-    this.warning = warning;
+  public void setBias(BiasDetectionResponse bias) {
+    this.bias = bias;
   }
 
-  public ClientResponse clients(List<Client> clients) {
-    this.clients = clients;
-    return this;
-  }
-
-  public ClientResponse addClientsItem(Client clientsItem) {
-    if (this.clients == null) {
-      this.clients = new ArrayList<Client>();
-    }
-    this.clients.add(clientsItem);
+  public CaseReport discrepancy(Discrepancy discrepancy) {
+    this.discrepancy = discrepancy;
     return this;
   }
 
   /**
-   * Get clients
-   * @return clients
+   * Get discrepancy
+   * @return discrepancy
    **/
-  @JsonProperty("clients")
+  @JsonProperty("discrepancy")
   @ApiModelProperty(value = "")
-  public List<Client> getClients() {
-    return clients;
+  public Discrepancy getDiscrepancy() {
+    return discrepancy;
   }
 
-  public void setClients(List<Client> clients) {
-    this.clients = clients;
+  public void setDiscrepancy(Discrepancy discrepancy) {
+    this.discrepancy = discrepancy;
   }
 
 
@@ -156,30 +147,30 @@ public class ClientResponse   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ClientResponse clientResponse = (ClientResponse) o;
-    return Objects.equals(this.code, clientResponse.code) &&
-        Objects.equals(this.success, clientResponse.success) &&
-        Objects.equals(this.error, clientResponse.error) &&
-        Objects.equals(this.warning, clientResponse.warning) &&
-        Objects.equals(this.clients, clientResponse.clients);
+    CaseReport caseReport = (CaseReport) o;
+    return Objects.equals(this.code, caseReport.code) &&
+        Objects.equals(this.success, caseReport.success) &&
+        Objects.equals(this.error, caseReport.error) &&
+        Objects.equals(this.bias, caseReport.bias) &&
+        Objects.equals(this.discrepancy, caseReport.discrepancy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, success, error, warning, clients);
+    return Objects.hash(code, success, error, bias, discrepancy);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClientResponse {\n");
+    sb.append("class CaseReport {\n");
     
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    success: ").append(toIndentedString(success)).append("\n");
     sb.append("    error: ").append(toIndentedString(error)).append("\n");
-    sb.append("    warning: ").append(toIndentedString(warning)).append("\n");
-    sb.append("    clients: ").append(toIndentedString(clients)).append("\n");
+    sb.append("    bias: ").append(toIndentedString(bias)).append("\n");
+    sb.append("    discrepancy: ").append(toIndentedString(discrepancy)).append("\n");
     sb.append("}");
     return sb.toString();
   }

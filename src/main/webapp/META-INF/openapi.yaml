@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0-oas3
+  version: 1.0.13
   title: Outcarcerate
   license:
     name: Apache 2.0
@@ -71,6 +71,24 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Attorney not found
+    delete:
+      tags:
+        - attorney
+      summary: Delete attorney by ID
+      description: Delete a single attorney
+      operationId: deleteAttorneyById
+      parameters:
+        - name: attorneyId
+          in: path
+          description: ID of attorney to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Attorney not found
   /client:
     post:
       tags:
@@ -90,34 +108,18 @@ paths:
     get:
       tags:
         - client
-      summary: Get a list of clients for an attorney
+      summary: Get a list of clients by client or by attorney
       description: Returns all clients of an attorney
       operationId: getClients
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientResponse'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientFilter'
-        required: true
-  '/client/{clientId}':
-    get:
-      tags:
-        - client
-      summary: Find client by ID
-      description: Returns a single client
-      operationId: getClientById
       parameters:
-        - name: clientId
-          in: path
-          description: ID of client to return
-          required: true
+        - in: query
+          name: clientId
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: attorneyId
+          required: false
           schema:
             type: string
       responses:
@@ -127,10 +129,160 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientResponse'
+  '/client/{clientId}':
+    delete:
+      tags:
+        - client
+      summary: Delete client by ID
+      description: Returns a single client
+      operationId: deleteClientById
+      parameters:
+        - name: clientId
+          in: path
+          description: ID of client to delete
+          required: true
+          schema:
+            type: string
+      responses:
         '400':
           description: Invalid ID supplied
         '404':
           description: Client not found
+  /case:
+    post:
+      tags:
+        - case
+      summary: Add a new case to an attorney
+      description: ''
+      operationId: addCase
+      parameters:
+        - in: query
+          name: attorneyId
+          required: true
+          description: Enter the attorney id for which the case to be added
+          schema:
+            type: integer
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Case'
+        required: true
+  '/case/{attorneyId}':
+    get:
+      tags:
+        - case
+      summary: Get all cases for attorney
+      description: Returns a single case
+      operationId: getCaseById
+      parameters:
+        - name: attorneyId
+          in: path
+          description: ID of attorney
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+  '/case/{attorneyId}/{caseId}':
+    get:
+      tags:
+        - case
+      summary: Get all cases for attorney
+      description: Returns a single case
+      operationId: getCase
+      parameters:
+        - name: attorneyId
+          in: path
+          description: ID of attorney
+          required: true
+          schema:
+            type: string
+        - name: caseId
+          in: path
+          description: ID of case
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+    delete:
+      tags:
+        - case
+      summary: Delete case by ID
+      description: Delete a single case
+      operationId: deleteCaseById
+      parameters:
+        - name: attorneyId
+          in: path
+          description: ID of attorney
+          required: true
+          schema:
+            type: string
+        - name: caseId
+          in: path
+          description: ID of case to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+  '/case/report/{attorneyId}/{caseId}':
+    get:
+      tags:
+        - case
+      summary: Get report for the case
+      description: Returns a single case
+      operationId: getCaseReport
+      parameters:
+        - name: attorneyId
+          in: path
+          description: ID of attorney
+          required: true
+          schema:
+            type: string
+        - name: caseId
+          in: path
+          description: ID of case
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseReport'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Case not found
+  
 servers:
   - url: /v1
 components:
@@ -394,6 +546,8 @@ components:
           type: string
         _rev:
           type: string
+        attorney_id:
+          type: string
         race:
           type: string
           enum:
@@ -423,6 +577,21 @@ components:
             - Category IV
             - Category V
             - Category VI
+    Deviation:
+      type: object
+      required:
+        - charge_code
+      properties:
+        _id:
+          type: string
+        _rev:
+          type: string
+        charge_code:
+          type: string
+        sentence_deviations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sentence'
     Attorney:
       type: object
       required:
@@ -466,6 +635,311 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attorney'
+    BiasDetectionRequest:
+      type: object
+      required:
+        - charge_code
+        - race
+        - gender
+        - controlled_substance_quantity_level
+      properties:
+        charge_code:
+          type: string
+          enum:
+            - Administration of Justice
+            - Aggravated Assault Police Officer
+            - Aggravated Battery Police Officer
+            - Aggravated Battery With A Firearm
+            - Aggravated Battery
+            - Aggravated Discharge Firearm
+            - Aggravated DUI
+            - Aggravated Fleeing and Eluding
+            - Aggravated Identity Theft
+            - Aggravated Robbery
+            - Antitrust
+            - Armed Robbery
+            - Armed Violence
+            - Arson and Attempt Arson
+            - Arson
+            - Attempt Armed Robbery
+            - Attempt Arson
+            - Attempt First Degree Murder
+            - Attempt Homicide
+            - Attempt Sex Crimes
+            - Attempt Vehicular Hijacking
+            - Battery
+            - Bomb Threat
+            - Bribery
+            - Bribery/Corruption
+            - Burglary
+            - Burglary/Trespass
+            - Child Abduction
+            - Child Pornography
+            - Commercialized Vice
+            - Communicating With Witness
+            - Credit Card Cases
+            - Criminal Damage to Property
+            - Criminal Trespass To Residence
+            - Deceptive Practice
+            - Disarming Police Officer
+            - Dog Fighting
+            - Domestic Battery
+            - Driving With Suspended Or Revoked License
+            - Drug Possession
+            - Drug Trafficking
+            - DUI
+            - Environmental
+            - Escape - Failure to Return
+            - Extortion/Racketeering
+            - FALSIFICATION OF ACCOUNTS
+            - Failure to Register as a Sex Offender
+            - Firearms
+            - Food and Drug
+            - Forgery
+            - Forgery/Counter/Copyright
+            - Fraud
+            - Fraud/Theft/Embezzlement
+            - Fraudulent ID
+            - Gambling
+            - Gun - Non UUW
+            - Gun Running
+            - Hate Crimes
+            - Home Invasion
+            - Homicide
+            - Human Trafficking
+            - Identity Theft
+            - Immigration
+            - Impersonating Police Officer
+            - Intimidation
+            - Invidual Rights
+            - Kidnapping
+            - Major Accidents
+            - Manslaughter
+            - Money Laundering
+            - Murder
+            - Narcotics
+            - National Defense
+            - Obscenity/Other Sex Offenses
+            - Obstructing Justice
+            - Official Misconduct
+            - Other Offense
+            - Other
+            - Pandering
+            - Perjury
+            - Possession Of Burglary Tools
+            - Possession of Contraband in Penal Institution
+            - Possession of Explosives
+            - Possession of Stolen Motor Vehicle
+            - Prison Offenses
+            - PROMIS Conversion
+            - Prostitution
+            - Reckless Discharge of Firearm
+            - Reckless Homicide
+            - Residential Burglary
+            - Retail Theft
+            - REVOKED/SUSPENDED 2ND+ DUI
+            - Robbery
+            - Sex Crimes
+            - SEX WITH ANIMAL/<18 PRESENT
+            - Sexual Abuse
+            - Stalking
+            - Stalking/Harassing
+            - Tampering
+            - Tax
+            - Theft by Deception
+            - Theft
+            - Unlawful Restraint
+            - UUW - Unlawful Use of Weapon
+            - Vehicular Hijacking
+            - Vehicular Invasion
+            - Violate Bail Bond
+            - VIO BAIL BOND/CLASS X CONVIC
+            - Violation of Sex Offender Registration
+            - Violation Order Of Protection
+        race:
+          type: string
+          enum:
+            - White
+            - Black
+            - Hispanic
+            - Other
+            - Asian
+            - American Indian
+            - Biracial
+            - 'White [Hispanic or Latino]'
+            - 'White/Black [Hispanic or Latino]'
+            - Unknown
+        gender:
+          enum:
+            - Female
+            - Male
+            - Other
+            - Unknown
+          type: string
+        controlled_substance_quantity_level:
+          type: integer
+          minimum: 0
+          maximum: 17
+    BiasDetectionResponse:
+      type: object
+      required:
+        - success
+        - charge_code
+        - race
+        - gender
+        - controlled_substance_quantity_level
+        - deviations
+      properties:
+        code:
+          type: integer
+          format: int32
+        success:
+          type: boolean
+        error:
+          type: string
+        warning:
+          type: string
+        charge_code:
+          type: string
+          enum:
+            - Administration of Justice
+            - Aggravated Assault Police Officer
+            - Aggravated Battery Police Officer
+            - Aggravated Battery With A Firearm
+            - Aggravated Battery
+            - Aggravated Discharge Firearm
+            - Aggravated DUI
+            - Aggravated Fleeing and Eluding
+            - Aggravated Identity Theft
+            - Aggravated Robbery
+            - Antitrust
+            - Armed Robbery
+            - Armed Violence
+            - Arson and Attempt Arson
+            - Arson
+            - Attempt Armed Robbery
+            - Attempt Arson
+            - Attempt First Degree Murder
+            - Attempt Homicide
+            - Attempt Sex Crimes
+            - Attempt Vehicular Hijacking
+            - Battery
+            - Bomb Threat
+            - Bribery
+            - Bribery/Corruption
+            - Burglary
+            - Burglary/Trespass
+            - Child Abduction
+            - Child Pornography
+            - Commercialized Vice
+            - Communicating With Witness
+            - Credit Card Cases
+            - Criminal Damage to Property
+            - Criminal Trespass To Residence
+            - Deceptive Practice
+            - Disarming Police Officer
+            - Dog Fighting
+            - Domestic Battery
+            - Driving With Suspended Or Revoked License
+            - Drug Possession
+            - Drug Trafficking
+            - DUI
+            - Environmental
+            - Escape - Failure to Return
+            - Extortion/Racketeering
+            - FALSIFICATION OF ACCOUNTS
+            - Failure to Register as a Sex Offender
+            - Firearms
+            - Food and Drug
+            - Forgery
+            - Forgery/Counter/Copyright
+            - Fraud
+            - Fraud/Theft/Embezzlement
+            - Fraudulent ID
+            - Gambling
+            - Gun - Non UUW
+            - Gun Running
+            - Hate Crimes
+            - Home Invasion
+            - Homicide
+            - Human Trafficking
+            - Identity Theft
+            - Immigration
+            - Impersonating Police Officer
+            - Intimidation
+            - Invidual Rights
+            - Kidnapping
+            - Major Accidents
+            - Manslaughter
+            - Money Laundering
+            - Murder
+            - Narcotics
+            - National Defense
+            - Obscenity/Other Sex Offenses
+            - Obstructing Justice
+            - Official Misconduct
+            - Other Offense
+            - Other
+            - Pandering
+            - Perjury
+            - Possession Of Burglary Tools
+            - Possession of Contraband in Penal Institution
+            - Possession of Explosives
+            - Possession of Stolen Motor Vehicle
+            - Prison Offenses
+            - PROMIS Conversion
+            - Prostitution
+            - Reckless Discharge of Firearm
+            - Reckless Homicide
+            - Residential Burglary
+            - Retail Theft
+            - REVOKED/SUSPENDED 2ND+ DUI
+            - Robbery
+            - Sex Crimes
+            - SEX WITH ANIMAL/<18 PRESENT
+            - Sexual Abuse
+            - Stalking
+            - Stalking/Harassing
+            - Tampering
+            - Tax
+            - Theft by Deception
+            - Theft
+            - Unlawful Restraint
+            - UUW - Unlawful Use of Weapon
+            - Vehicular Hijacking
+            - Vehicular Invasion
+            - Violate Bail Bond
+            - VIO BAIL BOND/CLASS X CONVIC
+            - Violation of Sex Offender Registration
+            - Violation Order Of Protection
+        race:
+          type: string
+          enum:
+            - White
+            - Black
+            - Hispanic
+            - Other
+            - Asian
+            - American Indian
+            - Biracial
+            - 'White [Hispanic or Latino]'
+            - 'White/Black [Hispanic or Latino]'
+            - Unknown
+        gender:
+          enum:
+            - Female
+            - Male
+            - Other
+            - Unknown
+          type: string
+        controlled_substance_quantity_level:
+          type: integer
+          minimum: 0
+          maximum: 17
+        deviations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deviation'
     ClientResponse:
       type: object
       required:
@@ -484,10 +958,50 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Client'
-    ClientFilter:
+    CaseResponse:
       type: object
       required:
-        - attorneyId
+        - success
       properties:
-        attorney_id:
+        code:
+          type: integer
+          format: int32
+        success:
+          type: boolean
+        error:
           type: string
+        warning:
+          type: string
+        clients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Case'
+    CaseReport:
+      type: object
+      required:
+        - success
+      properties:
+        code:
+          type: integer
+          format: int32
+        success:
+          type: boolean
+        error:
+          type: string
+        bias:
+          $ref: '#/components/schemas/BiasDetectionResponse'
+        discrepancy:
+          $ref: '#/components/schemas/Discrepancy'
+    Discrepancy:
+      type: object
+      required:
+        - model_name
+      properties:
+        model_name:
+          type: string
+        sentencing_discrepancy:
+          type: number
+          format: float
+        severity:
+          type: number
+          format: float
