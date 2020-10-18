@@ -17,16 +17,22 @@
 
 # Create and deploy a Java - MicroProfile / Java EE application
 
-> We have applications available for [Node.js Express](https://github.com/IBM/node-express-app), [Go Gin](https://github.com/IBM/go-gin-app), [Python Flask](https://github.com/IBM/python-flask-app), [Python Django](https://github.com/IBM/python-django-app), [Java Spring](https://github.com/IBM/java-spring-app), [Java Liberty](https://github.com/IBM/java-liberty-app), [Swift Kitura](https://github.com/IBM/swift-kitura-app), [Android](https://github.com/IBM/android-app), and [iOS](https://github.com/IBM/ios-app).
+To build the application you can run
+```bash
+docker build . -t <your-tag>
+```
 
-In this sample application, you will create a Java Liberty cloud application. This provides a starting point for creating Java web applications running on [WebSphere Liberty](https://developer.ibm.com/wasdev/). It contains no default application code, but comes with standard best practices, including a health check.
+If you want to deploy the application to an OpenShift Cluster (ROKS) on IBM Cloud, perform the following steps:
+```bash
+ibmcloud login
+ibmcloud cr login # logs you in to the Docker registry with your local Docker CLI
+docker push <your-tag>
+# Make sure your Container Registry is accessible by the ServiceAccount you are using, the default namespace and default ServiceAccount in an ROKS cluster are already integrated by default with the IBM Container Registry in your cloud account
+helm package chart/base/
+helm install --set image.repository=us.icr.io/emb-race-team/os-aggregator --set image.tag=helm-01 aggregator os-aggregator-1.1.4.tgz --namespace default
+```
 
-This application exposes the following endpoints:
-
-* Health endpoint: `<host>:<port>/<contextRoot>/health`
-* Web content: `<host>:<port>/<contextRoot>`
-
-The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. The web application has a health endpoint which is accessible at `<host>:<port>/javalibertyapp/health`. The ports are set in the `pom.xml` file.
+If you want to install to a different namespace, you have to copy the secret first as described here (or create a new one): https://cloud.ibm.com/docs/openshift?topic=openshift-registry#copy_imagePullSecret
 
 ## Steps
 
