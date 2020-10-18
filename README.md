@@ -28,7 +28,7 @@ If you want to install to a different namespace than default, you have to copy t
 
 ## How to access the application
 
-Once can use the [openapi spec](src/main/resources/META-INF/openapi.yaml) or [openapi url](http://localhost:8090/openapi/ui/) to find the documentation of REST services exposed
+Once can use the [openapi spec](src/main/webapp/META-INF/openapi.yaml) or [openapi url](http://localhost:8090/openapi/ui/) to find the documentation of REST services exposed
 
 ![OpenAPI Specification](images/openapi.png)
 
