@@ -12,39 +12,20 @@ image:
   pullPolicy: IfNotPresent
   port: 9080
 
-nameOverride: ""
-fullnameOverride: ""
-
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 serviceAccount:
   create: false
 
 route:
-  enabled: false
+  enabled: true
 
 ingress:
-  enabled: true
-  appid:
-    enabled: false
-    # web or app - https://cloud.ibm.com/docs/services/appid?topic=appid-kube-auth
-    requestType: web
-
-#  host: hello
-  namespaceInHost: true
-  subdomain: containers.appdomain.cloud
-  path: "/"
-
-#  tlsSecretName: ""
+  enabled: false
 
 vcsInfo:
-  repoUrl: ""
-  branch: ""
-
-partOf: ""
-
-connectsTo: ""
-
-runtime: ""
+  repoUrl: nil
+  branch: nil
+  connectsTo: nil
