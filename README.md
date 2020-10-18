@@ -1,21 +1,13 @@
-<p align="center">
-    <a href="https://cloud.ibm.com">
-        <img src="https://my1.digitalexperience.ibm.com/8304c341-f896-4e04-add0-0a9ae02473ba/dxdam/2d/2d559197-6763-4e47-a2cb-8f54c449ff26/ibm-cloud.svg" height="100" alt="IBM Cloud">
-    </a>
-</p>
+# Open Sentencing - Aggregator
 
-<p align="center">
-    <a href="https://cloud.ibm.com">
-    <img src="https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg" alt="IBM Cloud">
-    </a>
-    <a href="https://www.ibm.com/developerworks/learn/java/">
-    <img src="https://img.shields.io/badge/platform-java-lightgrey.svg?style=flat" alt="platform">
-    </a>
-    <img src="https://img.shields.io/badge/license-Apache2-blue.svg?style=flat" alt="Apache 2">
-</p>
+Aggregator is the core module of Open Sentencing Model which exposes REST endpoints to manage and maintain inventory of public attorney, clients and case related information. Aggregator is the point of articulation between the UI component and Data Prediction/Analytics modules. This is build using the IBM starter kit comes pre-configured as a microservice with Liberty server and uses CloudAnt database for storage. This is integrated with OpenAPI specification to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection.
 
+# Architecture
+The architecture of the complete system is shown below.  
 
-# Create and deploy a Java - MicroProfile / Java EE application
+![Architecture Digaram](images/architecture.png)
+
+# Create and deploy Aggregator application
 
 To build the application you can run
 ```bash
@@ -34,21 +26,11 @@ helm install --set image.repository=us.icr.io/emb-race-team/os-aggregator --set 
 
 If you want to install to a different namespace than default, you have to copy the secret first as described here (or create a new one): https://cloud.ibm.com/docs/openshift?topic=openshift-registry#copy_imagePullSecret.
 
-## Steps
+## How to access the application
 
-You can [deploy this application to IBM Cloud](https://cloud.ibm.com/developer/appservice/starter-kits/java-liberty-app) or [build it locally](#building-locally) by cloning this repo first.  Once your app is live, you can access the `/health` endpoint to build out your cloud native application.
+Once can use the [openapi spec](src/main/resources/META-INF/openapi.yaml) or [openapi url](http://localhost:8090/openapi/ui/) to find the documentation of REST services exposed
 
-### Deploying to IBM Cloud
-
-<p align="center">
-    <a href="https://cloud.ibm.com/developer/appservice/starter-kits/java-liberty-app">
-    <img src="https://cloud.ibm.com/devops/setup/deploy/button_x2.png" alt="Deploy to IBM Cloud">
-    </a>
-</p>
-
-Click **Deploy to IBM Cloud** to deploy this same application to IBM Cloud. This option creates a deployment pipeline, complete with a hosted GitLab project and a DevOps toolchain. You can deploy your app to Cloud Foundry, a Kubernetes cluster, or a Red Hat OpenShift cluster. OpenShift is available only through a standard cluster, which requires you to have a billable account.
-
-[IBM Cloud DevOps](https://www.ibm.com/cloud/devops) services provides toolchains as a set of tool integrations that support development, deployment, and operations tasks inside IBM Cloud.
+![OpenAPI Specification](images/openapi.png)
 
 ### Building Locally
 
@@ -65,51 +47,11 @@ To get started building this application locally, you can either run the applica
 
 To build and run the application:
 1. `mvn install`
-1. `mvn liberty:run-server`
+1. `mvn liberty:run-server -DAGGREGATOR_DB_IAM_KEY=***db-secret*** -DAGGREGATOR_DB_URL=****DB-url***`
 
 To run an application in Docker use the Docker file called `Dockerfile`. If you do not want to install Maven locally you can use `Dockerfile-tools` to build a container with Maven installed.
 
 You can verify the state of your locally running application using the Selenium UI test script included in the `scripts` directory.
-
-#### IBM Cloud Developer Tools
-
-Install [IBM Cloud Developer Tools](https://cloud.ibm.com/docs/cli?topic=cloud-cli-getting-started) on your machine by running the following command:
-```
-curl -sL https://ibm.biz/idt-installer | bash
-```
-
-Create an application on IBM Cloud by running:
-
-```bash
-ibmcloud dev create
-```
-
-This will create and download a starter application with the necessary files needed for local development and deployment.
-
-Your application will be compiled with Docker containers. To compile and run your app, run:
-
-```bash
-ibmcloud dev build
-ibmcloud dev run
-```
-
-This will launch your application locally. When you are ready to deploy to IBM Cloud on Cloud Foundry or Kubernetes, run one of the following commands:
-
-```bash
-ibmcloud dev deploy -t buildpack // to Cloud Foundry
-ibmcloud dev deploy -t container // to K8s cluster
-```
-
-You can build and debug your app locally with:
-
-```bash
-ibmcloud dev build --debug
-ibmcloud dev debug
-```
-
-## Next Steps
-* Learn more about augmenting your Java applications on IBM Cloud with the [Java Programming Guide](https://cloud.ibm.com/docs/java?topic=java-getting-started).
-* Explore other [sample applications](https://cloud.ibm.com/developer/appservice/starter-kits) on IBM Cloud.
 
 ## License
 
