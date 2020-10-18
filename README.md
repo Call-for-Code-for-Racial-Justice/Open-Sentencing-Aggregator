@@ -66,6 +66,6 @@ This sample application is licensed under the Apache License, Version 2. Separat
 
 This site provides applications using data that has been modified for use from its original source, www.ida.ussc.gov, an official website of the U.S. Sentencing Commission. The U.S. Sentencing Commission makes no claims as to the content, accuracy, timeliness, or completeness of any of the data provided at this site. The data provided at this site is subject to change at any time. It is understood that the data provided at this site is being used at one’s own risk.
 
-## How to Help
+## How to Help  **We'd love your involvement!**
 Please visit our main repo here: https://github.com/Call-for-Code-for-Racial-Justice/Open-Sentencing
 If you would like to [Help](https://developer.ibm.com/callforcode/racial-justice/) with the cause to use technology to battle racism, we would love for you to get involved!  Please submit updates to us for review. Together we can use technology to fight systemic racism!
