@@ -21,7 +21,7 @@ To build the application you can run
 ```bash
 docker build . -t <your-tag>
 ```
-
+For the application to run, a Cloudant database is required. You can provision a free version from IBM Cloud or provide your own one. The HELM charts expect an IAMKey and the DB URL as parameters.
 If you want to deploy the application to an OpenShift Cluster (ROKS) on IBM Cloud, perform the following steps:
 ```bash
 ibmcloud login
@@ -32,7 +32,7 @@ helm package chart/base/
 helm install --set image.repository=us.icr.io/emb-race-team/os-aggregator --set image.tag=helm-01 --set db.iamkey=<your-iam-key> --set db.url=https://<your-db-instance> aggregator os-aggregator-1.1.4.tgz --namespace deploy-test
 ```
 
-If you want to install to a different namespace, you have to copy the secret first as described here (or create a new one): https://cloud.ibm.com/docs/openshift?topic=openshift-registry#copy_imagePullSecret
+If you want to install to a different namespace than default, you have to copy the secret first as described here (or create a new one): https://cloud.ibm.com/docs/openshift?topic=openshift-registry#copy_imagePullSecret.
 
 ## Steps
 
