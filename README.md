@@ -29,7 +29,7 @@ ibmcloud cr login # logs you in to the Docker registry with your local Docker CL
 docker push <your-tag>
 # Make sure your Container Registry is accessible by the ServiceAccount you are using, the default namespace and default ServiceAccount in an ROKS cluster are already integrated by default with the IBM Container Registry in your cloud account
 helm package chart/base/
-helm install --set image.repository=us.icr.io/emb-race-team/os-aggregator --set image.tag=helm-01 aggregator os-aggregator-1.1.4.tgz --namespace default
+helm install --set image.repository=us.icr.io/emb-race-team/os-aggregator --set image.tag=helm-01 --set db.iamkey=<your-iam-key> --set db.url=https://<your-db-instance> aggregator os-aggregator-1.1.4.tgz --namespace deploy-test
 ```
 
 If you want to install to a different namespace, you have to copy the secret first as described here (or create a new one): https://cloud.ibm.com/docs/openshift?topic=openshift-registry#copy_imagePullSecret
