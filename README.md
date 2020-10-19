@@ -71,3 +71,5 @@ This site provides applications using data that has been modified for use from i
 Please visit our main repo here: https://github.com/Call-for-Code-for-Racial-Justice/Open-Sentencing.  More detailed areas on where we need assistance are provided.
 If you would like to [Help](https://developer.ibm.com/callforcode/racial-justice/) with the cause to use technology to battle racism, we would love for you to get involved!  Please submit updates to us for review. 
 Together we can use technology to fight systemic racism!
+
+Please read [CONTRIBUTING.md](https://github.com/Call-for-Code-for-Racial-Justice/Open-Sentencing/blob/master/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
