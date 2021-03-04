@@ -4,3 +4,15 @@ target/
 .settings/
 .vscode/
 .project
+
+######################
+# IntelliJ
+######################
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+classes/
+out/
