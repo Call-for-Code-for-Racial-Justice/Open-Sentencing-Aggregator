@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>projects</groupId>
-	<artifactId>outcarcerate-aggregator</artifactId>
-	<version>0.0.1</version>
+	<groupId>call-for-code</groupId>
+	<artifactId>open-sentencing-aggregator</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<!-- contains default pluginManagement configuration for liberty-maven-plugin -->
