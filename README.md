@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Community](https://img.shields.io/badge/Join-Community-blue.svg)](https://developer.ibm.com/callforcode/racial-justice/get-started/)
+
 # Open Sentencing - Aggregator
 
 Aggregator is the core module of the Open Sentencing Model which exposes REST endpoints to manage and maintain inventory of public attorney, clients, and case-related information. Aggregator is the point of articulation between the UI component and Data Prediction/Analytics modules. This is built using the IBM Starter Kit which comes pre-configured as a microservice with a Liberty server and uses the Cloudant database for storage. This is integrated with OpenAPI specifications to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection.
