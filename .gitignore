@@ -16,3 +16,4 @@ target/
 *.orig
 classes/
 out/
+/src/main/liberty/config/server.env
