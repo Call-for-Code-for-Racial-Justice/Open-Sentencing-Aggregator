@@ -1,0 +1,24 @@
+version: "3.7"
+services: 
+  couchserver:
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+    image: couchdb:latest
+    ports:
+      - 5984:5984
+    volumes:
+      - couchserver:/srv
+
+  initializer:
+    image: curlimages/curl
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - couchserver
+    command: ["sh","-c","sleep 10 && curl -u admin:password -X PUT couchserver:5984/_users
+        && curl -u admin:password -X PUT couchserver:5984/outcarcerate-attorney"]
+
+volumes:
+  couchserver:
