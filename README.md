@@ -52,9 +52,11 @@ To get started building this application locally, you can either run the applica
     that contains the IBM JDK (Windows, Linux)
 
 To build and run the application:
-1. `mvn install`
-1. `mvn liberty:run-server -DAGGREGATOR_DB_IAM_KEY=***db-secret*** -DAGGREGATOR_DB_URL=****DB-url***`
-   1. Alternatively, `mvn liberty:run` or `mvn clean package liberty:run` can be ran. Once completed, enter `http://192.168.0.13:9080/openapi/ui` in browser to view the swagger ui.
+1. mvn verify
+2. export/set AGGREGATOR_DB_IAM_KEY=***db-secret***
+3. export/set AGGREGATOR_DB_URL=****DB-url***`
+4. mvn liberty:run or mvn liberty:debug
+5. Once completed, enter `http://localhost:9080/openapi/ui` in browser to view the swagger ui.
 
 To run an application in Docker use the Docker file called `Dockerfile`. If you do not want to install Maven locally you can use `Dockerfile-tools` to build a container with Maven installed.
 
