@@ -1,0 +1,8 @@
+{
+  "_id": "_design/ddoc",
+  "views": {
+    "username":{
+      "map":"function(doc) { emit(doc.username); }"
+    }
+  }
+}
