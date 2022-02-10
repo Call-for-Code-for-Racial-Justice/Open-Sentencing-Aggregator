@@ -3,7 +3,10 @@ from cloudant.client import CouchDB
 from cloudant.client import Cloudant
 from cloudant.error import CloudantException
 from cloudant.result import Result, ResultByKey
+
+#https://github.com/joke2k/faker/blob/master/LICENSE.txt
 from faker import Faker
+
 from ibmcloudant.cloudant_v1 import CloudantV1
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 import logging
