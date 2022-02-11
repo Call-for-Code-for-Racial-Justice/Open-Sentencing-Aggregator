@@ -19,7 +19,7 @@ To build the application you can run
 ```bash
 docker build . -t <your-tag>
 ```
-For the application to run, a Cloudant database is required. You can provision a free version from IBM Cloud or provide your own one. The HELM charts expect an IAMKey and the DB URL as parameters.
+For the application to run, two Cloudant databases are required: outcarcerate-attorney and outcarcerate-client. You can provision a free version from IBM Cloud or provide your own one. The HELM charts expect an IAMKey and the DB URL as parameters.
 If you want to deploy the application to an OpenShift Cluster (ROKS) on IBM Cloud, perform the following steps:
 ```bash
 ibmcloud login
