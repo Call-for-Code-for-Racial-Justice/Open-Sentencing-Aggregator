@@ -34,6 +34,11 @@ jobs:
         VALIDATE_ALL_CODEBASE: true
         DEFAULT_BRANCH: main
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VALIDATE_BASH: false
+        #VALIDATE_BASH_EXEC: false
+        VALIDATE_ENV: false
+        VALIDATE_DOCKERFILE_HADOLINT: false
+        VALIDATE_GITHUB_ACTIONS: false
         
     - name: Build with Maven
       run: mvn -B package --file pom.xml
