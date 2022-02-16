@@ -40,6 +40,14 @@ jobs:
         VALIDATE_ENV: false
         VALIDATE_GITHUB_ACTIONS: false
         VALIDATE_JAVA: false
+        VALIDATE_KUBERNETES_KUBEVAL: false
+        VALIDATE_MARKDOWN: false
+        VALIDATE_NATURAL_LANGUAGE: false
+        VALIDATE_PYTHON_BLACK: false
+        VALIDATE_PYTHON_FLAKE8: false
+        VALIDATE_PYTHON_ISORT: false
+        VALIDATE_XML: false
+        VALIDATE_YAML: false
         
     - name: Build with Maven
       run: mvn -B package --file pom.xml
