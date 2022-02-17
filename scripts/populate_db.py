@@ -3,6 +3,9 @@ from cloudant.client import CouchDB
 from cloudant.client import Cloudant
 from cloudant.error import CloudantException
 from cloudant.result import Result, ResultByKey
+from dotenv import load_dotenv
+from pathlib import Path
+import os
 
 #https://github.com/joke2k/faker/blob/master/LICENSE.txt
 from faker import Faker
@@ -11,18 +14,29 @@ from ibmcloudant.cloudant_v1 import CloudantV1
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 import logging
 import random
+import sys
 import time
 
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-total_attorneys', type=int, default=5, help='Number of new attorneys to add to the database')
 parser.add_argument('-total_clients', type=int, default=5, help='Number of new clients to add to the database')
 parser.add_argument('-total_cases', type=int, default=5, help='Number of new cases to add to the database')
+parser.add_argument('-env_file', type=str, default='../src/main/liberty/config/server.env', help='Path to env file')
 
 args = parser.parse_args()
 total_attorneys = args.total_attorneys
 total_clients = args.total_clients
 total_cases = args.total_cases
+env_file = args.env_file
+
+if os.path.exists(env_file):
+    dotenv_path = Path(env_file)
+    load_dotenv(dotenv_path=dotenv_path)
+else:
+    logging.error('Path to environment file does not exist')
+    sys.exit(1)
 
 
 fake = Faker()
@@ -92,16 +106,23 @@ def main():
     
 
     # Refer to the following docs to retrieve account name and api key
-    #https://www.ibm.com/support/pages/how-do-you-determine-cloudant-account-name-ibm-cloud#:~:text=To%20find%20out%20the%20Cloudant,returned%20list%20of%20service%20credentials.
-    ACCOUNT = "<Enter Account name >"
-    API_KEY = "<Enter API KEY>"
-    client = Cloudant.iam(ACCOUNT, API_KEY, connect=True) 
+    # https://www.ibm.com/support/pages/how-do-you-determine-cloudant-account-name-ibm-cloud#:~:text=To%20find%20out%20the%20Cloudant,returned%20list%20of%20service%20credentials.
+    ACCOUNT = os.getenv('AGGREGATOR_DB_ACCOUNT')
+    API_KEY = os.getenv('AGGREGATOR_DB_API_KEY')
     
+    logging.info('Connecting to Cloudant DB')
+    try:
+        client = Cloudant.iam(ACCOUNT, API_KEY, connect=True) 
+    except Exception as e:
+        logging.error(e)
+        sys.exit(1)
+
+    logging.info('Creating Attorney DB')
     attorney_db = client.create_database("attorney") 
     for i in range(0, total_attorneys):
         attorney_db.create_document(getAttorney(str(i)))
         
-
+    logging.info('Creating Client DB')
     client_db = client.create_database('client') 
     for i in range(0, total_clients):
         client_db.create_document(getClient(str(i)))
@@ -113,6 +134,7 @@ def main():
     sentence_id = 0
     charge_id = 0
 
+    logging.info('Creating Case DB')
     case_db = client.create_database('case') 
     for i in range(0, total_cases):
 
