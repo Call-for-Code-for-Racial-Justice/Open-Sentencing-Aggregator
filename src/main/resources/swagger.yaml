@@ -175,7 +175,7 @@ paths:
       parameters:
       - in: query
         name: attorneyId
-        type : integer
+        type : string
         required: true
         description: "Enter the attorney id for which the case to be added"
       - in: "body"
