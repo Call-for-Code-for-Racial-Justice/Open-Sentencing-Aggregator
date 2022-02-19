@@ -9,8 +9,7 @@ import io.swagger.model.ModelCase;
 import org.junit.Test;
 
 import static it.IntegrationTestConstants.CASE_RESOURCE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class CaseIT {
 
@@ -26,22 +25,85 @@ public class CaseIT {
         ApiResponseMessage apiResponseMessage = addCase(attorneyId, clientId);
 
         assertEquals(ApiResponseMessage.OK, apiResponseMessage.getCode());
-        assertNotNull(apiResponseMessage.getMessage());
+        assertEquals(attorneyId, apiResponseMessage.getMessage());
     }
 
     @Test
-    public void getCases_getsCasesByAttorney() throws JsonProcessingException {
+    public void getAllCasesByAttorney_getsAllCasesByAttorney() throws JsonProcessingException {
+
+        String attorneyId = addAttorney();
+        String clientId = addClient(attorneyId);
+        addCase(attorneyId, clientId);
+        addCase(attorneyId, clientId);
+
+        CaseResponse caseResponse = getCasesByAttorney(attorneyId);
+        assertEquals(2, caseResponse.getClients().size());
+        for (ModelCase modelCase : caseResponse.getClients()) {
+            assertEquals(attorneyId, modelCase.getAttorneyId());
+            assertEquals(clientId, modelCase.getClientId());
+            assertNotNull(modelCase.getId());
+        }
+    }
+
+    @Test
+    public void getCaseByAttorney_getsCaseByAttorneyAndId() throws JsonProcessingException {
 
         String attorneyId = addAttorney();
         String clientId = addClient(attorneyId);
         addCase(attorneyId, clientId);
 
+        CaseResponse caseResponseByAttorney = getCasesByAttorney(attorneyId);
+        assertEquals(1, caseResponseByAttorney.getClients().size());
+        String caseId = Iterables.getOnlyElement(caseResponseByAttorney.getClients()).getId();
+
+        CaseResponse caseResponseById = getCaseByCaseId(attorneyId, caseId);
+        assertEquals(1, caseResponseById.getClients().size());
+        assertEquals(caseId, Iterables.getOnlyElement(caseResponseById.getClients()).getId());
+    }
+
+    @Test
+    public void deleteCaseById_deletesCase() throws JsonProcessingException {
+
+        String attorneyId = addAttorney();
+        String clientId = addClient(attorneyId);
+        addCase(attorneyId, clientId);
+
+        CaseResponse caseResponseByAttorney = getCasesByAttorney(attorneyId);
+        assertEquals(1, caseResponseByAttorney.getClients().size());
+        String caseId = Iterables.getOnlyElement(caseResponseByAttorney.getClients()).getId();
+
+        String jsonCaseById = conn.doDelete(CASE_RESOURCE + "/" + attorneyId + "/" + caseId);
+        ApiResponseMessage apiResponseMessage = objectMapper.readValue(jsonCaseById, ApiResponseMessage.class);
+        assertEquals(ApiResponseMessage.OK, apiResponseMessage.getCode());
+        assertEquals(attorneyId, apiResponseMessage.getMessage());
+
+        CaseResponse caseResponseAfterDelete = getCasesByAttorney(attorneyId);
+        assertEquals(0, caseResponseAfterDelete.getClients().size());
+    }
+
+    @Test
+    public void getReportForCase_getsReport() throws JsonProcessingException {
+
+        String attorneyId = addAttorney();
+        String clientId = addClient(attorneyId);
+        addCase(attorneyId, clientId);
+
+        CaseResponse caseResponseByAttorney = getCasesByAttorney(attorneyId);
+        assertEquals(1, caseResponseByAttorney.getClients().size());
+        String caseId = Iterables.getOnlyElement(caseResponseByAttorney.getClients()).getId();
+
+        String jsonReport = conn.doGet(CASE_RESOURCE + "/report/" + attorneyId + "/" + caseId);
+        assertTrue(jsonReport.contains("magic")); // Not implemented yet
+    }
+
+    private CaseResponse getCasesByAttorney(String attorneyId) throws JsonProcessingException {
         String json = conn.doGet(CASE_RESOURCE + "/" + attorneyId);
-        CaseResponse caseResponse = objectMapper.readValue(json, CaseResponse.class);
-        assertEquals(1, caseResponse.getClients().size());
-        ModelCase modelCase = Iterables.getOnlyElement(caseResponse.getClients());
-        assertEquals(attorneyId, modelCase.getAttorneyId());
-        assertEquals(clientId, modelCase.getClientId());
+        return objectMapper.readValue(json, CaseResponse.class);
+    }
+
+    private CaseResponse getCaseByCaseId(String attorneyId, String caseId) throws JsonProcessingException {
+        String jsonCaseById = conn.doGet(CASE_RESOURCE + "/" + attorneyId + "/" + caseId);
+        return objectMapper.readValue(jsonCaseById, CaseResponse.class);
     }
 
     private String addAttorney() {
@@ -66,10 +128,10 @@ public class CaseIT {
 
     private String getNewCaseJson(String attorneyId, String clientId) {
         return "{\n" +
-                "  \"_id\": \"string\",\n" +
+                "  \"_id\": null,\n" +
                 "  \"_rev\": null,\n" +
                 "  \"client_id\": \"" + clientId + "\",\n" +
-                "  \"attorney_id\": \"" + attorneyId +"\",\n" +
+                "  \"attorney_id\": \"" + attorneyId + "\",\n" +
                 "  \"possible_charges\": [\n" +
                 "    {\n" +
                 "      \"_id\": null,\n" +
