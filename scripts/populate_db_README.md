@@ -1,6 +1,6 @@
 #### Populate Cloudant Database
 
-This application includes a python script for populating the backend Cloudant database with mock data using the Faker framework. 
+This application includes a python script for populating the backend Cloudant database with mock data using the [faker framework](https://github.com/joke2k/faker/). 
 
 To run the this script, first you need to [install Python](https://www.python.org/downloads/) on your system.
 

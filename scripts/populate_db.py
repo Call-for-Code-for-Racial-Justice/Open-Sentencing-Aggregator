@@ -17,6 +17,7 @@ import random
 import sys
 import time
 
+
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
 parser = argparse.ArgumentParser()
@@ -105,8 +106,6 @@ def getCase(attorney_id, client_id, charges_list, id=None):
 def main():
     
 
-    # Refer to the following docs to retrieve account name and api key
-    # https://www.ibm.com/support/pages/how-do-you-determine-cloudant-account-name-ibm-cloud#:~:text=To%20find%20out%20the%20Cloudant,returned%20list%20of%20service%20credentials.
     ACCOUNT = os.getenv('AGGREGATOR_DB_ACCOUNT')
     API_KEY = os.getenv('AGGREGATOR_DB_API_KEY')
     
@@ -119,20 +118,30 @@ def main():
 
     logging.info('Creating Attorney DB')
     attorney_db = client.create_database("attorney") 
+    attorney_docs = []
     for i in range(0, total_attorneys):
-        attorney_db.create_document(getAttorney(str(i)))
+        attorney_docs.append(getAttorney(str(i)))        
+    
+    logging.info('Populating Attorney DB')
+    attorney_db.bulk_docs(attorney_docs)
         
     logging.info('Creating Client DB')
     client_db = client.create_database('client') 
+    client_docs = []
     for i in range(0, total_clients):
-        client_db.create_document(getClient(str(i)))
-        time.sleep(1)
+        client_docs.append(getClient(str(i)))
+
+    logging.info('Populating Client DB')
+    client_db.bulk_docs(client_docs)
 
     sentence_db = client.create_database('sentence')
     charge_db = client.create_database('charge')
 
     sentence_id = 0
     charge_id = 0
+    sentence_docs = []
+    charge_docs = []
+    case_docs = []
 
     logging.info('Creating Case DB')
     case_db = client.create_database('case') 
@@ -145,17 +154,33 @@ def main():
             for k in range (0, 2):
                 sentence_id += 1
                 sentence_list.append(str(sentence_id))
-                sentence_db.create_document(getSentence(str(sentence_id)))
+                sentence_docs.append(getSentence(str(sentence_id)))
                 
             charge_id += 1
             charges_list.append(str(charge_id))
-            charge_db.create_document(getCharge(sentence_list, str(charge_id)))
-            time.sleep(1)
+            charge_docs.append(getCharge(sentence_list, str(charge_id)))
 
 
         attorney_id = str(random.randint(0, total_attorneys))
         client_id = str(random.randint(0, total_clients))
-        case_db.create_document(getCase(attorney_id=attorney_id, client_id=client_id, charges_list=charges_list, id=str(i)))
-        time.sleep(1)
+        case_docs.append(getCase(attorney_id=attorney_id, client_id=client_id, charges_list=charges_list, id=str(i)))
+    
+    logging.info('Populating Case DB')
+    case_db.bulk_docs(case_docs)
+
+    logging.info('Populating Charge DB')
+    charge_db.bulk_docs(charge_docs)
+
+    logging.info('Populating Sentence DB')
+    sentence_db.bulk_docs(sentence_docs)   
+
+    try:
+        logging.info('Disconnecting from Cloudant database')
+        client.disconnect()
+        sys.exit(0)
+    except Exception as e:
+        logging.error(e)
+        sys.exit(1)
+
 
 main()
