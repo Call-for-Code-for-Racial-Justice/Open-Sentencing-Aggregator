@@ -23,4 +23,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Run unit tests with Maven
-      run: mvn test --file pom.xml
+      run: mvn -B test --file pom.xml
