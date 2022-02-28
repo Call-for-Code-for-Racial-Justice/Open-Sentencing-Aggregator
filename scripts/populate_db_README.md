@@ -21,7 +21,7 @@ Usage:
 python populate_db.py -h
 
 
-usage: populate_db.py [-h] [-total_attorneys TOTAL_ATTORNEYS] [-total_clients TOTAL_CLIENTS] [-total_cases TOTAL_CASES] [-env_file ENV_FILE]
+usage: populate_db.py [-h] [-total_attorneys TOTAL_ATTORNEYS] [-total_clients TOTAL_CLIENTS] [-env_file ENV_FILE]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -29,8 +29,6 @@ optional arguments:
                         Number of new attorneys to add to the database
   -total_clients TOTAL_CLIENTS
                         Number of new clients to add to the database
-  -total_cases TOTAL_CASES
-                        Number of new cases to add to the database
   -env_file ENV_FILE    Path to env file
 ```
 
@@ -38,12 +36,12 @@ Run the script with default parameters
 ```bash
 python populate_db.py
 ```
-The script will lookup your Cloudant credentials from server.env file. It will add 5 databases - attorney, client, case, charge, sentence - to your Cloudant account. The databases attorney, client and case will have 5 records each. The databases charge and sentence will contain a random number of records. 
+The script will lookup your Cloudant credentials from server.env file. It will add 2 databases - outcarcerate-attorney, outcarcerate-client - to your Cloudant account. Each database will consist 5 records.  
 
 
 To run the script without default parameters
 ```bash
-python populate_db.py -total_attorneys=<number of attorneys> -total_clients=<number of clients> -total_cases=<number of cases> -env_file=<path/to/your/.env/file>
+python populate_db.py -total_attorneys=<number of attorneys> -total_clients=<number of clients> -env_file=<path/to/your/.env/file>
 ```
 
 
