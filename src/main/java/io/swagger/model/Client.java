@@ -42,7 +42,7 @@ public class Client   {
     ASIAN("Asian"),
     BLACK_OR_AFRICAN_AMERICAN("Black or African American"),
     HISPANIC_OR_LATINO("Hispanic or Latino"),
-    NATIVE_HAWAIIN_OR_OTHER_PACIFIC_ISLANDER("Native Hawaiian or Other Pacific Islander"),
+    NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER("Native Hawaiian or Other Pacific Islander"),
     WHITE("White"),
     MULTI_RACIAL("Multi-racial");
 
