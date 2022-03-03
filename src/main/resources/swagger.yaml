@@ -528,16 +528,13 @@ definitions:
       race:
         type: "string"
         enum:
-          - White
-          - Black
-          - Hispanic
-          - Other
+          - American Indian or Alaska Native
           - Asian
-          - American Indian
-          - Biracial
-          - White [Hispanic or Latino]
-          - White/Black [Hispanic or Latino]
-          - Unknown
+          - Black or African American
+          - Hispanic or Latino
+          - Native Hawaiian or Other Pacific Islander
+          - White
+          - Multi-racial
       gender:
         enum:
           - Female
@@ -736,16 +733,13 @@ definitions:
       race:
         type: "string"
         enum:
-          - White
-          - Black
-          - Hispanic
-          - Other
+          - American Indian or Alaska Native
           - Asian
-          - American Indian
-          - Biracial
-          - White [Hispanic or Latino]
-          - White/Black [Hispanic or Latino]
-          - Unknown
+          - Black or African American
+          - Hispanic or Latino
+          - Native Hawaiian or Other Pacific Islander
+          - White
+          - Multi-racial
       gender:
         enum:
           - Female
@@ -892,16 +886,13 @@ definitions:
       race:
         type: "string"
         enum:
-          - White
-          - Black
-          - Hispanic
-          - Other
+          - American Indian or Alaska Native
           - Asian
-          - American Indian
-          - Biracial
-          - White [Hispanic or Latino]
-          - White/Black [Hispanic or Latino]
-          - Unknown
+          - Black or African American
+          - Hispanic or Latino
+          - Native Hawaiian or Other Pacific Islander
+          - White
+          - Multi-racial
       gender:
         enum:
           - Female
