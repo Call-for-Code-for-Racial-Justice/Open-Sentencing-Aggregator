@@ -1,6 +1,14 @@
 package application.model;
 
-import static com.cloudant.client.api.query.Expression.ne;
+import com.cloudant.client.api.ClientBuilder;
+import com.cloudant.client.api.CloudantClient;
+import com.cloudant.client.api.Database;
+import com.cloudant.client.api.model.Response;
+import com.cloudant.client.api.query.QueryBuilder;
+import com.cloudant.client.api.query.QueryResult;
+import com.google.common.collect.Iterables;
+import io.swagger.model.Attorney;
+import io.swagger.model.ModelCase;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,24 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.cloudant.client.api.ClientBuilder;
-import com.cloudant.client.api.CloudantClient;
-import com.cloudant.client.api.Database;
-import com.cloudant.client.api.model.Response;
-import com.cloudant.client.api.query.QueryBuilder;
-import com.cloudant.client.api.query.QueryResult;
-
-import io.swagger.model.Attorney;
-import io.swagger.model.CaseReport;
-import io.swagger.model.ModelCase;
+import static com.cloudant.client.api.query.Expression.ne;
 
 public class AttorneyModel {
-//  private CloudantClient client = null;
-	private Database db = null;
+  	private CloudantClient client = null;
+	private final Database db;
 
 	public AttorneyModel(String url, String apiKey, String database) {
 		System.out.println(url);
-		CloudantClient client = null;
 		try {
 			client = ClientBuilder.url(new URL(url)).iamApiKey(apiKey).build();
 		} catch (MalformedURLException e) {
@@ -52,11 +50,15 @@ public class AttorneyModel {
 		return attorney;
 	}
 
+	public String getUuid() {
+		return Iterables.getOnlyElement(client.uuids(1));
+	}
+
 	public Response addCaseToAttorney(String id, ModelCase modelCase) {
 		Attorney attorney = db.find(Attorney.class, id);
 
 		if (attorney.getCases() == null)
-			attorney.setCases(new ArrayList<ModelCase>());
+			attorney.setCases(new ArrayList<>());
 
 		attorney.getCases().add(modelCase);
 		Response response = db.update(attorney);

@@ -161,7 +161,7 @@ paths:
           required: true
           description: Enter the attorney id for which the case to be added
           schema:
-            type: integer
+            type: string
       responses:
         '405':
           description: Invalid input
