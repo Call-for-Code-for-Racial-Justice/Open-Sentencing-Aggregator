@@ -34,6 +34,11 @@ public class AttorneyModel {
 		db = client.database(database, false);
 	}
 
+	// New Constructor added to run Unit tests
+	public AttorneyModel(Database db) {
+		this.db = db;
+	}
+
 	public Response save(Attorney attorney) {
 		Response resp = db.save(attorney);
 		return resp;
