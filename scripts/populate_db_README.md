@@ -12,8 +12,7 @@ pip install ibmcloudant
 pip install --upgrade "ibmcloudant>=0.0.43"
 ```
 
-Modify server.env file located at /src/main/liberty/config/server.env by adding your Cloudant Account name and API key. You may refer to these [docs] 
-(https://www.ibm.com/support/pages/how-do-you-determine-cloudant-account-name-ibm-cloud#:~:text=To%20find%20out%20the%20Cloudant,returned%20list%20of%20service%20credentials) to look up your account name and api key.
+Modify server.env file located at /src/main/liberty/config/server.env by adding your Cloudant Account name and API key. You may refer to this [documentation](https://www.ibm.com/support/pages/how-do-you-determine-cloudant-account-name-ibm-cloud#:~:text=To%20find%20out%20the%20Cloudant,returned%20list%20of%20service%20credentials) to look up your account name and api key.
    
 
 Usage:
@@ -42,6 +41,95 @@ The script will lookup your Cloudant credentials from server.env file. It will a
 To run the script without default parameters
 ```bash
 python populate_db.py -total_attorneys=<number of attorneys> -total_clients=<number of clients> -env_file=<path/to/your/.env/file>
+```
+
+Here is a sample output in JSON format for an attorney
+```bash
+{
+	'_id': '0',
+	 'username': 'Antonio Cook',
+	 'cases': [
+		 {
+			 'attorney_id': '0',
+			 'client_id': '0',
+			 'possible_charges': [
+            {
+              'trial_type': 'Trial by jury',
+              'charge_code': 'Antitrust',
+              'primary': True,
+              'attempted': False,
+              'possible_sentences': [
+                  {
+                    'minimum_probation_months': 16,
+                    'fine_dollars': 5,
+                    'minimum_fine_dollars': 4056,
+                    'community_service_hours': 118,
+                    'sentence_type': 'Probation Terminated Satisfactorily',
+                    'charge_disposition': 'FNPC'
+                  },
+                  {
+                    'minimum_probation_months': 17,
+                    'fine_dollars': 14,
+                    'minimum_fine_dollars': 3448,
+                    'community_service_hours': 73,
+                    'sentence_type': 'Inpatient Mental Health Services',
+                    'charge_disposition': 'FNG'
+                  }
+              ]
+            },
+            {
+              'trial_type': 'Trial by judge',
+              'charge_code': 'Theft by Deception',
+              'primary': False,
+              'attempted': True,
+              'possible_sentences': [
+                  {
+                    'minimum_probation_months': 10,
+                    'fine_dollars': 17,
+                    'minimum_fine_dollars': 5721,
+                    'community_service_hours': 70,
+                    'sentence_type': 'Probation Only',
+                    'charge_disposition': 'BFW'
+                  },
+                  {
+                    'minimum_probation_months': 17,
+                    'fine_dollars': 7,
+                    'minimum_fine_dollars': 3586,
+                    'community_service_hours': 56,
+                    'sentence_type': 'Jail',
+                    'charge_disposition': 'Verdict Guilty'
+                  }
+              ]
+            },
+            {
+              'trial_type': 'Trial by jury',
+              'charge_code': 'Tampering',
+              'primary': False,
+              'attempted': False,
+              'possible_sentences': [
+                  {
+                    'minimum_probation_months': 7,
+                    'fine_dollars': 16,
+                    'minimum_fine_dollars': 803,
+                    'community_service_hours': 173,
+                    'sentence_type': 'Jail',
+                    'charge_disposition': 'Death Suggested-Cause Abated'
+                  },
+                  {
+                    'minimum_probation_months': 9,
+                    'fine_dollars': 11,
+                    'minimum_fine_dollars': 7109,
+                    'community_service_hours': 64,
+                    'sentence_type': 'Probation Terminated Instanter',
+                    'charge_disposition': 'FNPC'
+                  }
+              ]
+            }	
+			 ]
+		 }
+	 ]
+ }
+
 ```
 
 
