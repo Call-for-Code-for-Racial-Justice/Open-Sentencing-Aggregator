@@ -1,91 +1,119 @@
 package application.model;
 
-import static com.cloudant.client.api.query.Expression.ne;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import com.cloudant.client.api.ClientBuilder;
-import com.cloudant.client.api.CloudantClient;
-import com.cloudant.client.api.Database;
-import com.cloudant.client.api.model.Response;
-import com.cloudant.client.api.query.QueryBuilder;
-import com.cloudant.client.api.query.QueryResult;
-
+import com.google.gson.Gson;
+import com.ibm.cloud.cloudant.v1.Cloudant;
+import com.ibm.cloud.cloudant.v1.model.*;
+import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
 import io.swagger.model.Attorney;
 import io.swagger.model.CaseReport;
 import io.swagger.model.ModelCase;
 
 public class AttorneyModel {
-//  private CloudantClient client = null;
-	private Database db = null;
+	private String database = null;
+	private Cloudant service = null;
+	private ModelHelper modelHelper = null;
 
-	public AttorneyModel(String url, String apiKey, String database) {
-		System.out.println(url);
-		CloudantClient client = null;
+	public AttorneyModel(String serviceName, String database) {
+		this.database = database;
+		modelHelper = new ModelHelper();
 		try {
-			client = ClientBuilder.url(new URL(url)).iamApiKey(apiKey).build();
-		} catch (MalformedURLException e) {
+			service = Cloudant.newInstance(serviceName);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("Server Version: " + client.serverVersion());
-		db = client.database(database, false);
 	}
 
-	public Response save(Attorney attorney) {
-		Response resp = db.save(attorney);
+	public DocumentResult save(Attorney attorney) {
+		Gson gson = new Gson();
+		Document attorneyDocument = new Document();
+		attorneyDocument.setProperties(gson.fromJson(gson.toJson(attorney), Map.class));
+		PostDocumentOptions createDocumentOptions = modelHelper.getPostDocumentOptions(attorneyDocument, database);
+		DocumentResult resp = service
+				.postDocument(createDocumentOptions)
+				.execute()
+				.getResult();
 		return resp;
 	}
 	
-	public Response delete(String id) {
-		Attorney attorney = db.find(Attorney.class, id);
-		Response resp = db.remove(attorney);
-		return resp;
+	public DocumentResult delete(String id) {
+		DocumentResult deleteDocumentResponse = null;
+		try {
+			// Set the options to get the document out of the database if it exists
+			GetDocumentOptions documentInfoOptions = modelHelper.getGetDocumentOptions(id,database);
+			// Try to get the document if it previously existed in the database
+			Document document = service
+					.getDocument(documentInfoOptions)
+					.execute()
+					.getResult();
+			// Delete the document from the database
+			DeleteDocumentOptions deleteDocumentOptions =
+					modelHelper.getDeleteDocumentOptions(id, document.getRev(), database);
+			deleteDocumentResponse = service
+					.deleteDocument(deleteDocumentOptions)
+					.execute()
+					.getResult();
+			if (deleteDocumentResponse.isOk()) {
+				System.out.println("You have deleted the document.");
+			}
+		} catch (NotFoundException nfe) {
+			System.out.println("Cannot delete because document was not found " + nfe);
+		}
+		return deleteDocumentResponse;
 	}
 
-	public Attorney read(String id) {
-		Attorney attorney = db.find(Attorney.class, id);
+	public Attorney getAttorney(String id) {
+		Gson gson = new Gson();
+		GetDocumentOptions getDocOptions = modelHelper.getGetDocumentOptions(id, database);
+		Document attorneyDocument = service
+				.getDocument(getDocOptions)
+				.execute()
+				.getResult();
+		Attorney attorney = attorneyDocument != null ? gson.fromJson(attorneyDocument.toString(),Attorney.class): null;
+
 		return attorney;
 	}
 
-	public Response addCaseToAttorney(String id, ModelCase modelCase) {
-		Attorney attorney = db.find(Attorney.class, id);
+	public DocumentResult addCaseToAttorney(String id, ModelCase modelCase) {
+		Attorney attorney = getAttorney(id);
 
 		if (attorney.getCases() == null)
 			attorney.setCases(new ArrayList<ModelCase>());
 
 		attorney.getCases().add(modelCase);
-		Response response = db.update(attorney);
+		DocumentResult response = save(attorney);
 		return response;
 	}
 
-	public Response deleteCaseFromAttorney(String id, String caseId) {
-		Attorney attorney = db.find(Attorney.class, id);
+	public DocumentResult deleteCaseFromAttorney(String id, String caseId) {
+		Attorney attorney = getAttorney(id);
 		attorney.getCases().removeIf(i -> i.getId().equalsIgnoreCase(caseId));
-		Response response = db.update(attorney);
+		DocumentResult response = save(attorney);
 		return response;
 	}
 
 	public List<ModelCase> getCasesForAttorney(String id) {
-		Attorney attorney = db.find(Attorney.class, id);
+		Attorney attorney = getAttorney(id);
 		return attorney.getCases();
 	}
 	
 	public List<ModelCase> getCasesByIdForAttorney(String attroneyId, String caseId) {
-		Attorney attorney = db.find(Attorney.class, attroneyId);
+		Attorney attorney = getAttorney(attroneyId);
 		return attorney.getCases().stream().filter(i -> i.getId()
 				.equalsIgnoreCase(caseId)).collect(Collectors.toList());
 	}
 
-	public QueryResult<Attorney> getAll() {
-		QueryResult<Attorney> qr = db.query(new QueryBuilder(ne("_id", "")).fields("username", "_id", "_rev").build(),
-				Attorney.class);
-		return qr;
+	public FindResult getAll() {
+		Map<String, Object> selector = Collections.singletonMap(
+				"_id", Collections.singletonMap("$ne", ""));
+		PostFindOptions findOptions = modelHelper.getFindOptions(selector, database);
+		FindResult response =
+				service.postFind(findOptions).execute()
+						.getResult();
+
+		System.out.println(response);
+
+		return response;
 	}
-	
-	
 }
