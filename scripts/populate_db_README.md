@@ -2,14 +2,16 @@
 
 This application includes a python script for populating the backend Cloudant database with mock data using the [faker framework](https://github.com/joke2k/faker/). 
 
-To run the this script, first you need to [install Python](https://www.python.org/downloads/) on your system.
+To run the this script, first you need to install [Python](https://www.python.org/downloads/), [pip](https://pypi.org/project/pip/) and [pipenv](https://pypi.org/project/pipenv/) on your system.
 
-Then install the following libraries
+Install the dependencies using pipenv
 ```bash
-pip install Faker
-pip install cloudant
-pip install ibmcloudant
-pip install --upgrade "ibmcloudant>=0.0.43"
+pipenv install
+```
+
+Use the following command if you already have installed the dependencies and want to activate the virtual environment only.
+```bash
+pipenv shell
 ```
 
 Modify server.env file located at /src/main/liberty/config/server.env by adding your Cloudant Account name and API key. You may refer to this [documentation](https://www.ibm.com/support/pages/how-do-you-determine-cloudant-account-name-ibm-cloud#:~:text=To%20find%20out%20the%20Cloudant,returned%20list%20of%20service%20credentials) to look up your account name and api key.
