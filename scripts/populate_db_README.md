@@ -4,7 +4,7 @@ This application includes a python script for populating the backend Cloudant da
 
 To run the this script, first you need to install [Python](https://www.python.org/downloads/), [pip](https://pypi.org/project/pip/) and [pipenv](https://pypi.org/project/pipenv/) on your system.
 
-Install the dependencies using pipenv
+Run the following from the scripts/ folder to install the dependencies using pipenv
 ```bash
 pipenv install
 ```

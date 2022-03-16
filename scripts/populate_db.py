@@ -1,5 +1,4 @@
 import argparse
-from cloudant.client import CouchDB
 from cloudant.client import Cloudant
 from cloudant.error import CloudantException
 from cloudant.result import Result, ResultByKey
@@ -49,12 +48,13 @@ def getAttorney(id, total_clients):
 
     total_cases = random.randint(0, 3)
     case_list = []
-    for i in range(0, total_cases):  
+    for i in range(0, 1):  
         attorney_id = id
         client_id = str(random.randint(0, total_clients))
         case_list.append(getCase(attorney_id=attorney_id, client_id=client_id))
     
     dict['cases'] = case_list
+    print(dict)
     return dict 
 
 
