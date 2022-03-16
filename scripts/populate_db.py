@@ -48,7 +48,7 @@ def getAttorney(id, total_clients):
 
     total_cases = random.randint(0, 3)
     case_list = []
-    for i in range(0, 1):  
+    for i in range(0, total_cases):  
         attorney_id = id
         client_id = str(random.randint(0, total_clients))
         case_list.append(getCase(attorney_id=attorney_id, client_id=client_id))
