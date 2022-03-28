@@ -6,9 +6,11 @@ import com.google.gson.Gson;
 import com.ibm.cloud.cloudant.v1.Cloudant;
 import com.ibm.cloud.cloudant.v1.model.*;
 import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
+import com.google.common.collect.Iterables;
 import io.swagger.model.Attorney;
-import io.swagger.model.CaseReport;
 import io.swagger.model.ModelCase;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AttorneyModel {
 	private String database = null;
@@ -17,23 +19,31 @@ public class AttorneyModel {
 
 	public AttorneyModel(String serviceName, String database) {
 		this.database = database;
-		modelHelper = new ModelHelper();
+		this.modelHelper = new ModelHelper();
 		try {
 			service = Cloudant.newInstance(serviceName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	// New Constructor added to run Unit tests
+	public AttorneyModel(Cloudant service, ModelHelper modelHelper) {
+		this.service = service;
+		this.modelHelper = modelHelper;
+	}
 
 	public DocumentResult save(Attorney attorney) {
 		Gson gson = new Gson();
-		Document attorneyDocument = new Document();
-		attorneyDocument.setProperties(gson.fromJson(gson.toJson(attorney), Map.class));
-		PostDocumentOptions createDocumentOptions = modelHelper.getPostDocumentOptions(attorneyDocument, database);
-		DocumentResult resp = service
-				.postDocument(createDocumentOptions)
-				.execute()
-				.getResult();
+		DocumentResult resp = null;
+		if(attorney != null) {
+			Document attorneyDocument = new Document();
+			attorneyDocument.setProperties(gson.fromJson(gson.toJson(attorney), Map.class));
+			PostDocumentOptions createDocumentOptions = modelHelper.getPostDocumentOptions(attorneyDocument, database);
+			resp = service
+					.postDocument(createDocumentOptions)
+					.execute()
+					.getResult();
+		}
 		return resp;
 	}
 	
@@ -75,11 +85,14 @@ public class AttorneyModel {
 		return attorney;
 	}
 
+	public String getUuid() {
+		return Iterables.getOnlyElement(service.getUuids().execute().getResult().getUuids());
+	}
+
 	public DocumentResult addCaseToAttorney(String id, ModelCase modelCase) {
 		Attorney attorney = getAttorney(id);
-
 		if (attorney.getCases() == null)
-			attorney.setCases(new ArrayList<ModelCase>());
+			attorney.setCases(new ArrayList<>());
 
 		attorney.getCases().add(modelCase);
 		DocumentResult response = save(attorney);

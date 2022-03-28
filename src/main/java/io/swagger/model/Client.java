@@ -17,7 +17,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
@@ -39,25 +38,13 @@ public class Client   {
    * Gets or Sets race
    */
   public enum RaceEnum {
-    WHITE("White"),
-    
-    BLACK("Black"),
-    
-    HISPANIC("Hispanic"),
-    
-    OTHER("Other"),
-    
+    AMERICAN_INDIAN_OR_ALASKA_NATIVE("American Indian or Alaska Native"),
     ASIAN("Asian"),
-    
-    AMERICAN_INDIAN("American Indian"),
-    
-    BIRACIAL("Biracial"),
-    
-    WHITE_HISPANIC_OR_LATINO_("White [Hispanic or Latino]"),
-    
-    WHITE_BLACK_HISPANIC_OR_LATINO_("White/Black [Hispanic or Latino]"),
-    
-    UNKNOWN("Unknown");
+    BLACK_OR_AFRICAN_AMERICAN("Black or African American"),
+    HISPANIC_OR_LATINO("Hispanic or Latino"),
+    NATIVE_HAWAIIAN_OR_OTHER_PACIFIC_ISLANDER("Native Hawaiian or Other Pacific Islander"),
+    WHITE("White"),
+    MULTI_RACIAL("Multi-racial");
 
     private String value;
 

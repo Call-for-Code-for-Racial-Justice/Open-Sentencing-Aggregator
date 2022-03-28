@@ -1,8 +1,6 @@
 package application.model;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
 import com.ibm.cloud.cloudant.v1.Cloudant;
