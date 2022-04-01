@@ -1,56 +1,93 @@
 package application.model;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import com.cloudant.client.api.ClientBuilder;
-import com.cloudant.client.api.CloudantClient;
-import com.cloudant.client.api.Database;
-import com.cloudant.client.api.model.Response;
-import com.cloudant.client.api.query.QueryBuilder;
-import com.cloudant.client.api.query.QueryResult;
-
-import static com.cloudant.client.api.query.EmptyExpression.empty;
-import static com.cloudant.client.api.query.Expression.eq;
-import static com.cloudant.client.api.query.Expression.gt;
-import static com.cloudant.client.api.query.Operation.and;
-
+import java.util.Collections;
+import java.util.Map;
+import com.google.gson.Gson;
+import com.ibm.cloud.cloudant.v1.Cloudant;
+import com.ibm.cloud.cloudant.v1.model.*;
+import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
 import io.swagger.model.Client;
 
 public class ClientModel {
-	private Database db = null;
+	private String database = null;
+	private Cloudant service = null;
+	private ModelHelper modelHelper = null;
 
-	public ClientModel(String url, String apiKey, String database) {
-		System.out.println(url);
-		CloudantClient client = null;
+	public ClientModel(String serviceName, String database) {
+		this.database = database;
+		modelHelper = new ModelHelper();
 		try {
-			client = ClientBuilder.url(new URL(url)).iamApiKey(apiKey).build();
-		} catch (MalformedURLException e) {
+			service = Cloudant.newInstance(serviceName);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		System.out.println("Server Version: " + client.serverVersion());
-		db = client.database(database, false);
 	}
 
-	public Response save(Client client) {
-		Response resp = db.save(client);
+	public DocumentResult save(Client client) {
+		Gson gson = new Gson();
+		Document clientDocument = new Document();
+		clientDocument.setProperties(gson.fromJson(gson.toJson(client), Map.class));
+		PostDocumentOptions createDocumentOptions = modelHelper.getPostDocumentOptions(clientDocument, database);
+		DocumentResult resp = service
+				.postDocument(createDocumentOptions)
+				.execute()
+				.getResult();
+
 		return resp;
 	}
 
-	public Response delete(String id) {
-		Client client = db.find(Client.class, id);
-		Response resp = db.remove(client);
-		return resp;
+	public DocumentResult delete(String id) {
+		DocumentResult deleteDocumentResponse = null;
+		try {
+			// Set the options to get the document out of the database if it exists
+			GetDocumentOptions documentInfoOptions = modelHelper.getGetDocumentOptions(id,database);
+			// Try to get the document if it previously existed in the database
+			Document document = service
+					.getDocument(documentInfoOptions)
+					.execute()
+					.getResult();
+
+			// Delete the document from the database
+			DeleteDocumentOptions deleteDocumentOptions =
+					modelHelper.getDeleteDocumentOptions(id, document.getRev(), database);
+
+			deleteDocumentResponse = service
+					.deleteDocument(deleteDocumentOptions)
+					.execute()
+					.getResult();
+			if (deleteDocumentResponse.isOk()) {
+				System.out.println("You have deleted the document.");
+			}
+		} catch (NotFoundException nfe) {
+			System.out.println("Cannot delete because document was not found " + nfe);
+		}
+		return deleteDocumentResponse;
 	}
 
 	public Client read(String id) {
-		Client client = db.find(Client.class, id);
+		Gson gson = new Gson();
+		GetDocumentOptions getDocOptions = modelHelper.getGetDocumentOptions(id, database);
+		Document clientDocument = service
+				.getDocument(getDocOptions)
+				.execute()
+				.getResult();
+		Client client = clientDocument != null ? gson.fromJson(clientDocument.toString(),Client.class): null;
+
 		return client;
 	}
 
-	public QueryResult<Client> getAllClientsOfAttorney(String attorneyId) {
-		QueryResult<Client> qr = db.query(new QueryBuilder(eq("attorneyId", attorneyId)).build(), Client.class);
-		return qr;
+	public FindResult getAllClientsOfAttorney(String attorneyId) {
+		Map<String, Object> selector = Collections.singletonMap(
+				"_id", Collections.singletonMap("$eq", attorneyId));
+
+		PostFindOptions findOptions = modelHelper.getFindOptions(selector,database);
+
+		FindResult response =
+				service.postFind(findOptions).execute()
+						.getResult();
+		System.out.println(response);
+
+		return response;
 	}
+
 }
